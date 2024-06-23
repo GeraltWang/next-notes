@@ -1,10 +1,15 @@
 'use client'
 
-import { useState } from 'react'
 import NotePreview from '@/components/NotePreview'
-import { useFormStatus } from 'react-dom'
-import Image from 'next/image'
-import { saveNote, deleteNote } from '@/lib/actions/note.action'
+import { deleteNote, saveNote } from '@/lib/actions/note.action'
+import { useEffect, useState } from 'react'
+import { useFormState } from 'react-dom'
+import DeleteButton from './DeleteButton'
+import SaveButton from './SaveButton'
+
+const initialState = {
+	message: '',
+}
 
 interface Props {
 	noteId: string | null
@@ -13,20 +18,39 @@ interface Props {
 }
 
 const NoteEditor = ({ noteId, initialTitle, initialBody }: Props) => {
-	const { pending } = useFormStatus()
+	const [saveState, saveFormAction] = useFormState(saveNote, initialState)
+	const [delState, delFormAction] = useFormState(deleteNote, initialState)
+
 	const [title, setTitle] = useState(initialTitle)
 	const [body, setBody] = useState(initialBody)
 	const isDraft = !noteId
 
+	useEffect(() => {
+		if (saveState.errors) {
+			// 处理错误
+			console.log(saveState.errors)
+		}
+	}, [saveState])
+
 	return (
 		<div className='note-editor'>
 			<form className='note-editor-form' autoComplete='off'>
+				<div className='note-editor-menu' role='menubar'>
+					<input type='hidden' name='noteId' value={noteId || ''} />
+					<SaveButton formAction={saveFormAction} />
+					<DeleteButton isDraft={isDraft} formAction={delFormAction} />
+				</div>
+				<div className='note-editor-menu'>
+					{saveState?.message}
+					{saveState.errors && saveState.errors[0].message}
+				</div>
 				<label className='offscreen' htmlFor='note-title-input'>
 					Enter a title for your note
 				</label>
 				<input
 					id='note-title-input'
 					type='text'
+					name='title'
 					value={title}
 					onChange={e => {
 						setTitle(e.target.value)
@@ -35,32 +59,9 @@ const NoteEditor = ({ noteId, initialTitle, initialBody }: Props) => {
 				<label className='offscreen' htmlFor='note-body-input'>
 					Enter the body for your note
 				</label>
-				<textarea value={body} id='note-body-input' onChange={e => setBody(e.target.value)} />
+				<textarea name='body' value={body} id='note-body-input' onChange={e => setBody(e.target.value)} />
 			</form>
 			<div className='note-editor-preview'>
-				<form className='note-editor-menu' role='menubar'>
-					<button
-						className='note-editor-done'
-						disabled={pending}
-						type='submit'
-						role='menuitem'
-						formAction={() => saveNote(noteId, title, body)}
-					>
-						<Image src='/checkmark.svg' width='14' height='10' alt='' role='presentation' />
-						Done
-					</button>
-					{!isDraft && (
-						<button
-							className='note-editor-delete'
-							disabled={pending}
-							role='menuitem'
-							formAction={() => deleteNote(noteId)}
-						>
-							<Image src='/cross.svg' width='10' height='10' alt='' role='presentation' />
-							Delete
-						</button>
-					)}
-				</form>
 				<div className='label label--preview' role='status'>
 					Preview
 				</div>
