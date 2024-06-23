@@ -4,6 +4,7 @@ import Image from 'next/image'
 import SidebarNoteList from '@/components/SidebarNoteList'
 import EditButton from './EditButton'
 import NoteListSkeleton from './NoteListSkeleton'
+import SidebarSearchField from './SidebarSearchField'
 
 const Sidebar = () => {
 	return (
@@ -15,7 +16,7 @@ const Sidebar = () => {
 				</section>
 			</Link>
 			<section className='sidebar-menu' role='menubar'>
-				{/* SideSearchField */}
+				<SidebarSearchField />
 				<EditButton noteId={null}>New</EditButton>
 			</section>
 			<nav>
