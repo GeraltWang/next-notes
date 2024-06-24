@@ -5,6 +5,7 @@ import './style.css'
 import Sidebar from '@/components/Sidebar'
 import { getMessages } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
+import Header from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
 			<body className={inter.className}>
 				<NextIntlClientProvider messages={messages}>
 					<div className='container'>
+						<Header />
 						<div className='main'>
 							<Sidebar />
 							<section className='col note-viewer'>{children}</section>

@@ -11,7 +11,7 @@ interface State {
 
 const schema = z.object({
 	title: z.string(),
-	content: z.string().min(1, '请填写内容').max(100, '字数最多 100'),
+	content: z.string().min(1, '请填写内容').max(2000, '字数最多 2000'),
 })
 
 export const saveNote = async (prevState: State, formData: FormData) => {
