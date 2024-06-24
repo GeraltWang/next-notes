@@ -6,6 +6,7 @@ import EditButton from './EditButton'
 import NoteListSkeleton from './NoteListSkeleton'
 import SidebarSearchField from './SidebarSearchField'
 import { useTranslations } from 'next-intl'
+import SidebarImport from './SidebarImport'
 
 const Sidebar = () => {
 	const t = useTranslations('Basic')
@@ -27,6 +28,7 @@ const Sidebar = () => {
 					<SidebarNoteList />
 				</Suspense>
 			</nav>
+			<SidebarImport />
 		</section>
 	)
 }
