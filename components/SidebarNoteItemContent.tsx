@@ -14,7 +14,9 @@ const SidebarNoteItemContent = ({ id, title, children, expandedChildren }: Props
 	const router = useRouter()
 	const pathname = usePathname()
 
-	const selectedId = pathname?.split('/')[2] || null
+	// 使用正则表达式从 URL 中提取数字 ID
+	const match = pathname.match(/\/note\/(\d+)/)
+	const selectedId = match ? match[1] : null
 
 	const [isPending] = useTransition()
 	const [isExpanded, setIsExpanded] = useState(false)
