@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import NotePreview from '@/components/NotePreview'
 import EditButton from '@/components/EditButton'
 import { type Note } from '@/types'
+import { useTranslations } from 'next-intl'
 
 interface Props {
 	noteId: string
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const Note = ({ noteId, note }: Props) => {
+	const t = useTranslations('Basic')
 	const { title, content, updateTime } = note
 
 	return (
@@ -19,7 +21,7 @@ const Note = ({ noteId, note }: Props) => {
 					<small className='note-updated-at' role='status'>
 						Last updated on {dayjs(updateTime).format('YYYY-MM-DD hh:mm:ss')}
 					</small>
-					<EditButton noteId={noteId}>Edit</EditButton>
+					<EditButton noteId={noteId}>{t('edit')}</EditButton>
 				</div>
 			</div>
 			<NotePreview>{content}</NotePreview>

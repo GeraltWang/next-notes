@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { useTransition } from 'react'
+import { useTranslations } from 'next-intl'
 
 const Spinner = ({ active = true }) => {
 	return (
@@ -14,6 +15,8 @@ const Spinner = ({ active = true }) => {
 }
 
 const SidebarSearchField = () => {
+	const t = useTranslations('Basic')
+
 	const { replace } = useRouter()
 	const pathname = usePathname()
 	const [isPending, startTransition] = useTransition()
@@ -36,7 +39,12 @@ const SidebarSearchField = () => {
 			<label className='offscreen' htmlFor='sidebar-search-input'>
 				Search for a note by title
 			</label>
-			<input id='sidebar-search-input' placeholder='Search' type='text' onChange={e => handleSearch(e.target.value)} />
+			<input
+				id='sidebar-search-input'
+				placeholder={t('search')}
+				type='text'
+				onChange={e => handleSearch(e.target.value)}
+			/>
 			<Spinner active={isPending} />
 		</div>
 	)
