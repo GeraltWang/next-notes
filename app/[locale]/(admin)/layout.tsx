@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import './style.css'
+import Sidebar from '@/components/Sidebar'
 import { getMessages } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
+import Header from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +24,15 @@ export default async function RootLayout({
 	return (
 		<html lang={locale}>
 			<body className={inter.className}>
-				<NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+				<NextIntlClientProvider messages={messages}>
+					<div className='w-full h-screen flex flex-col'>
+						<Header />
+						<div className='main'>
+							<Sidebar />
+							<section className='h-full w-full flex justify-center items-center'>{children}</section>
+						</div>
+					</div>
+				</NextIntlClientProvider>
 			</body>
 		</html>
 	)

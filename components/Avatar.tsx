@@ -29,7 +29,7 @@ function SignOut(props: SignOutProps) {
 		<form
 			action={async () => {
 				'use server'
-				await signOut()
+				await signOut({ redirectTo: '/' })
 			}}
 		>
 			<button {...props}>Sign Out</button>
