@@ -29,7 +29,7 @@ function SignOut(props: SignOutProps) {
 		<form
 			action={async () => {
 				'use server'
-				await signOut({ redirectTo: '/' })
+				await signOut()
 			}}
 		>
 			<button {...props}>Sign Out</button>
@@ -44,7 +44,7 @@ const Avatar = ({ session }: { session: SessionProviderProps['session'] }) => {
 				<span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 					<Image src={session.user?.image || ''} width={30} height={30} alt='avatar' />
 					{session?.user.name}
-					<SignOut />
+					<SignOut type='submit' />
 				</span>
 			) : (
 				<SignIn />

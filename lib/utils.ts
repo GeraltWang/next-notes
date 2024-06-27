@@ -12,6 +12,7 @@ export const handleError = (error: unknown) => {
 }
 
 export const handleAuthError = (error: AuthError) => {
+	console.log('🚀 ~ handleAuthError ~ error:', JSON.stringify(error))
 	switch (error.type) {
 		case 'CredentialsSignin':
 			return {

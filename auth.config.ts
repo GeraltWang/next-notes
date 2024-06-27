@@ -3,11 +3,11 @@ import { LoginSchema } from '@/schema/user'
 import bcrypt from 'bcryptjs'
 import type { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import GitHub from 'next-auth/providers/github'
+// import GitHub from 'next-auth/providers/github'
 
 export default {
 	providers: [
-		GitHub,
+		// GitHub,
 		CredentialsProvider({
 			// name: '密码登录',
 			// credentials: {

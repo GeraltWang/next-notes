@@ -7,18 +7,17 @@ import { AuthError } from 'next-auth'
 import { z } from 'zod'
 
 export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
-	try {
-		const validateFields = LoginSchema.safeParse(data)
+	const validateFields = LoginSchema.safeParse(data)
 
-		if (!validateFields.success) {
-			return {
-				error: 'Invalid fields!',
-			}
+	if (!validateFields.success) {
+		return {
+			error: 'Invalid fields!',
 		}
-		// return {
-		// 	message: 'Email Sent!',
-		// }
-		const { email, password } = validateFields.data
+	}
+
+	const { email, password } = validateFields.data
+
+	try {
 		await signIn('credentials', {
 			email,
 			password,
@@ -26,8 +25,9 @@ export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
 		})
 	} catch (error) {
 		if (error instanceof AuthError) {
-			handleAuthError(error)
+			return handleAuthError(error)
 		}
-		handleError(error)
+		throw error
+		// throw handleError(error)
 	}
 }
