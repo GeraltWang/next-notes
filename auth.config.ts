@@ -9,11 +9,11 @@ export default {
 	providers: [
 		GitHub,
 		CredentialsProvider({
-			name: '密码登录',
-			credentials: {
-				email: { label: 'Email', type: 'email', placeholder: 'Email' },
-				password: { label: 'Password', type: 'password', placeholder: 'Password' },
-			},
+			// name: '密码登录',
+			// credentials: {
+			// 	email: { label: 'Email', type: 'email', placeholder: 'Email' },
+			// 	password: { label: 'Password', type: 'password', placeholder: 'Password' },
+			// },
 			async authorize(credentials) {
 				const validateFields = LoginSchema.safeParse(credentials)
 

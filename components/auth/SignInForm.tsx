@@ -1,17 +1,25 @@
 'use client'
+import { loginUser } from '@/lib/actions/login.action'
 import { LoginSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useState, useTransition } from 'react'
 
+import FormError from '@/components/auth/FormError'
+import FormSuccess from '@/components/auth/FormSuccess'
 import CardWrapper from '@/components/CardWrapper'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import FormError from '@/components/auth/FormError'
-import FormSuccess from '@/components/auth/FormSuccess'
 
 const SignInForm = () => {
+	const [error, setError] = useState<string | undefined>('')
+
+	const [success, setSuccess] = useState<string | undefined>('')
+
+	const [isPending, startTransition] = useTransition()
+
 	const form = useForm<z.infer<typeof LoginSchema>>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
@@ -21,11 +29,24 @@ const SignInForm = () => {
 	})
 
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-		console.log(values)
+		setError('')
+		setSuccess('')
+
+		startTransition(() => {
+			loginUser(values).then(data => {
+				data?.error && setError(data.error)
+				data?.message && setSuccess(data.message)
+			})
+		})
 	}
 
 	return (
-		<CardWrapper showSocial headerLabel={'Welcome back'} backButtonLabel={"Don't have an account?"} backButtonHref=''>
+		<CardWrapper
+			showSocial
+			headerLabel={'Welcome back'}
+			backButtonLabel={"Don't have an account?"}
+			backButtonHref='/sign-up'
+		>
 			<Form {...form}>
 				<form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-4'>
@@ -36,7 +57,7 @@ const SignInForm = () => {
 								<FormItem>
 									<FormLabel>Email</FormLabel>
 									<FormControl>
-										<Input {...field} type='email' placeholder='example@email.com' />
+										<Input {...field} disabled={isPending} type='email' placeholder='example@email.com' />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -49,16 +70,16 @@ const SignInForm = () => {
 								<FormItem>
 									<FormLabel>Password</FormLabel>
 									<FormControl>
-										<Input {...field} type='password' placeholder='enter password' />
+										<Input {...field} disabled={isPending} type='password' placeholder='enter password' />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 					</div>
-					<FormError message='' />
-					<FormSuccess message='' />
-					<Button className='w-full' type='submit'>
+					<FormError message={error} />
+					<FormSuccess message={success} />
+					<Button className='w-full' type='submit' disabled={isPending}>
 						Sign In
 					</Button>
 				</form>

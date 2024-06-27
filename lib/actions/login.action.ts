@@ -1,10 +1,10 @@
 'use server'
-import { handleError, handleAuthError } from '@/lib/utils'
-import { AuthError } from 'next-auth'
-import { LoginSchema } from '@/schema/user'
+import { handleAuthError, handleError } from '@/lib/utils'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
-import * as z from 'zod'
-import { signIn } from '@/auth'
+import { LoginSchema } from '@/schema/user'
+import { signIn } from 'auth'
+import { AuthError } from 'next-auth'
+import { z } from 'zod'
 
 export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
 	try {
@@ -12,10 +12,12 @@ export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
 
 		if (!validateFields.success) {
 			return {
-				errors: 'Invalid fields!',
+				error: 'Invalid fields!',
 			}
 		}
-
+		// return {
+		// 	message: 'Email Sent!',
+		// }
 		const { email, password } = validateFields.data
 		await signIn('credentials', {
 			email,
