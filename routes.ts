@@ -10,7 +10,7 @@ export const publicRoutes = ['/', '/note/\\d+']
  * 用于登录/注册
  * @type {string[]}
  */
-export const authRoutes = ['/auth/signin', '/auth/signup']
+export const authRoutes = ['/sign-in', '/sign-up']
 
 /**
  * API 授权路由前缀

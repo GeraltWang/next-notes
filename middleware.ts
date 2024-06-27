@@ -7,32 +7,41 @@ import { publicRoutes, authRoutes, apiAuthPrefix, DEFAULT_LOGIN_REDIRECT } from 
 
 const { auth } = NextAuth(authConfig)
 
-export default auth((req) => {
-	console.log("🚀 ~ authMiddleware ~ ROUTE:", req.nextUrl.pathname)
+/**
+ * 检测是否是公共路由的正则方法 项目做了国际化 所以需要匹配多语言前缀
+ * @param routes
+ * @param path
+ * @returns
+ */
+const routeTester = (routes: string[], path: string) => {
+	const Regex = RegExp(
+		`^(/(${locales.join('|')}))?(${routes.flatMap(p => (p === '/' ? ['', '/'] : p)).join('|')})/?$`,
+		'i'
+	)
+	return Regex.test(path)
+}
+
+export default auth(req => {
+	console.log('🚀 ~ authMiddleware ~ ROUTE:', req.nextUrl.pathname)
 	const { nextUrl } = req
 
 	// 登录状态
 	const isLoggedIn = !!req.auth
-	console.log("🚀 ~ authMiddleware ~ isLoggedIn:", isLoggedIn)
+	console.log('🚀 ~ authMiddleware ~ isLoggedIn:', isLoggedIn)
 
 	// 是否是访问后台鉴权接口
 	const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-	console.log("🚀 ~ authMiddleware ~ isApiAuthRoute:", isApiAuthRoute)
+	console.log('🚀 ~ authMiddleware ~ isApiAuthRoute:', isApiAuthRoute)
 
-	// 检测是否是公共路由的正则 项目做了国际化 所以需要匹配多语言前缀
-	const publicPathnameRegex = RegExp(
-		`^(/(${locales.join('|')}))?(${publicRoutes.flatMap(p => (p === '/' ? ['', '/'] : p)).join('|')})/?$`,
-		'i'
-	)
 	// 是否是公共路由
-	const isPublicRoute = publicPathnameRegex.test(nextUrl.pathname)
+	const isPublicRoute = routeTester(publicRoutes, nextUrl.pathname)
 	// const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
-	console.log("🚀 ~ authMiddleware ~ isPublicRoute:", isPublicRoute)
+	console.log('🚀 ~ authMiddleware ~ isPublicRoute:', isPublicRoute)
 
 	// 是否是授权路由 如登录页 注册页
-	const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-	console.log("🚀 ~ authMiddleware ~ isAuthRoute:", isAuthRoute)
-	
+	const isAuthRoute = routeTester(authRoutes, nextUrl.pathname)
+	console.log('🚀 ~ authMiddleware ~ isAuthRoute:', isAuthRoute)
+
 	// 1. 如果是后台接口 直接 return null 不做任何处理
 	if (isApiAuthRoute) {
 		// ApiAuthRoute 是后台接口 不需要国际化 所以直接 return null 不做任何处理
