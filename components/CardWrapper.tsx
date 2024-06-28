@@ -6,7 +6,7 @@ import Social from '@/components/auth/Social'
 import BackButton from '@/components/auth/BackButton'
 
 interface Props {
-	children: React.ReactNode
+	children?: React.ReactNode
 	headerLabel: string
 	backButtonLabel: string
 	backButtonHref: string
@@ -19,7 +19,7 @@ const CardWrapper = ({ children, headerLabel, backButtonLabel, backButtonHref, s
 			<CardHeader>
 				<Header label={headerLabel} />
 			</CardHeader>
-			<CardContent>{children}</CardContent>
+			{children && <CardContent>{children}</CardContent>}
 			{showSocial && (
 				<CardFooter>
 					<Social />

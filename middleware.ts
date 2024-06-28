@@ -44,7 +44,7 @@ export default auth(req => {
 	// 1. 如果是后台接口 直接 return null 不做任何处理
 	if (isApiAuthRoute) {
 		// ApiAuthRoute 是后台接口 不需要国际化 所以直接 return null 不做任何处理
-		return null
+		return
 	}
 
 	// 2. 如果是授权路由 如登录页 注册页

@@ -3,7 +3,7 @@ import { handleError } from '@/lib/utils'
 import prisma from '@/prisma/client'
 import { RegisterSchema } from '@/schema/user'
 import bcrypt from 'bcryptjs'
-import * as z from 'zod'
+import { z } from 'zod'
 
 export const getUserByEmail = async (email: string) => {
 	try {

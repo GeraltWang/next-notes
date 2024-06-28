@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useState, useTransition } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import FormError from '@/components/auth/FormError'
 import FormSuccess from '@/components/auth/FormSuccess'
@@ -14,6 +15,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 
 const SignInForm = () => {
+	const searchParams = useSearchParams()
+	const urlError =
+		searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email is already in use by another account!' : ''
+
 	const [error, setError] = useState<string | undefined>('')
 
 	const [success, setSuccess] = useState<string | undefined>('')
@@ -77,7 +82,7 @@ const SignInForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message={error} />
+					<FormError message={error || urlError} />
 					<FormSuccess message={success} />
 					<Button className='w-full' type='submit' disabled={isPending}>
 						Sign In
