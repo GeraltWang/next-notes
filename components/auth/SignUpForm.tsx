@@ -1,5 +1,5 @@
 'use client'
-import { registerUser } from '@/lib/actions/user.action'
+import { signUpUser } from '@/lib/actions/sign-up.action'
 import { RegisterSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -34,7 +34,7 @@ const SignUpForm = () => {
 		setSuccess('')
 
 		startTransition(() => {
-			registerUser(values).then(data => {
+			signUpUser(values).then(data => {
 				data?.error && setError(data.error)
 				data?.message && setSuccess(data.message)
 			})

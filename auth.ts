@@ -44,12 +44,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 	},
 	callbacks: {
 		// signIn callback checks if the user exists and if the email is verified
-		// async signIn({ user }) {
-		// 	if (!user.id) return false
-		// 	const existingUser = await getUserById(user.id)
-		// 	if (!existingUser || !existingUser.emailVerified) return false
-		// 	return true
-		// },
+		async signIn({ user, account }) {
+			if (account?.provider !== 'credentials') {
+				return true
+			}
+			if (!user.id) return false
+			// prevent the user from signing in if the email is not verified
+			const existingUser = await getUserById(user.id)
+			if (!existingUser?.emailVerified) return false
+			// TODO: 2FA CHECK
+			return true
+		},
 		// jwt callback returns the token and pass it to the session callback
 		async jwt({ token }) {
 			console.log('🚀 ~ callbacks jwt ~ { token }:', { token })

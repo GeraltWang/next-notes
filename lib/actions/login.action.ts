@@ -5,6 +5,8 @@ import { LoginSchema } from '@/schema/user'
 import { signIn } from 'auth'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
+import { genVerificationToken } from '@/lib/verification-token'
+import { getUserByEmail } from '@/lib/actions/user.action'
 
 export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
 	const validateFields = LoginSchema.safeParse(data)
@@ -16,6 +18,21 @@ export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
 	}
 
 	const { email, password } = validateFields.data
+
+	const existingUser = await getUserByEmail(email)
+
+	if (!existingUser || !existingUser.email || !existingUser.password) {
+		return {
+			error: 'Invalid email or password!',
+		}
+	}
+
+	if (!existingUser.emailVerified) {
+		const vToken = await genVerificationToken(existingUser.email)
+		return {
+			message: 'Confirmation email sent! Please verify your email address.',
+		}
+	}
 
 	try {
 		await signIn('credentials', {
