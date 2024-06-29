@@ -5,7 +5,8 @@ import { RegisterSchema } from '@/schema/user'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { getUserByEmail } from '@/lib/actions/user.action'
-import { genVerificationToken } from '../verification-token'
+import { genVerificationToken } from '@/lib/verification-token'
+import { sendVerificationEmail } from '@/lib/mail'
 
 export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
 	try {
@@ -36,6 +37,7 @@ export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
 		})
 		const vToken = await genVerificationToken(email)
 		// TODO: Send email with verification token
+		await sendVerificationEmail(vToken.email, vToken.token)
 		return {
 			message: 'Confirmation email sent! Please verify your email address.',
 		}

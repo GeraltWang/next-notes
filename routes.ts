@@ -3,7 +3,7 @@
  * 无需鉴权
  * @type {string[]}
  */
-export const publicRoutes = ['/', '/note/\\d+']
+export const publicRoutes = ['/', '/new-verification', '/note/\\d+']
 
 /**
  * 授权路由
