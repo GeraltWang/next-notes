@@ -4,7 +4,7 @@ import { getUserByEmail } from '@/lib/actions/user.action'
 import { handleError } from '@/lib/utils'
 import prisma from '@/prisma/client'
 import { ResetPasswordSchema } from '@/schema/user'
-import bcrypt from 'bcryptjs'
+import { encrypt } from 'encrypt'
 import { z } from 'zod'
 
 export const newPassword = async (values: z.infer<typeof ResetPasswordSchema>, token: string | null) => {
@@ -45,7 +45,7 @@ export const newPassword = async (values: z.infer<typeof ResetPasswordSchema>, t
 		}
 		// 6. 更新密码
 		const { password } = validatedFields.data
-		const hashedNewPassword = await bcrypt.hash(password, 10)
+		const hashedNewPassword = await encrypt(password, 10)
 		await prisma.user.update({
 			where: {
 				id: existingUser.id,

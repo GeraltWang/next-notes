@@ -23,7 +23,8 @@
 			"@/*": ["./*"],
 			"@/components/*": ["components/*"],
 			"@/lib/*": ["lib/*"],
-			"auth": ["./auth"]
+			"auth": ["./auth"],
+			"encrypt": ["lib/encrypt"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

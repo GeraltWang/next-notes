@@ -1,6 +1,6 @@
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { LoginSchema } from '@/schema/user'
-import bcrypt from 'bcryptjs'
+import { compare } from 'encrypt'
 import type { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHub from 'next-auth/providers/github'
@@ -31,7 +31,7 @@ export default {
 					const hasRegisteredUser = await getUserByEmail(email)
 					if (!hasRegisteredUser || !hasRegisteredUser.password) return null
 
-					const passwordsMatch = await bcrypt.compare(password, hasRegisteredUser.password)
+					const passwordsMatch = await compare(password, hasRegisteredUser.password)
 					if (passwordsMatch) return hasRegisteredUser
 				}
 
