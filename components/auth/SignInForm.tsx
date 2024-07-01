@@ -1,11 +1,11 @@
 'use client'
-import { loginUser } from '@/lib/actions/login.action'
+import { signInUser } from '@/lib/actions/sign-in.action'
 import { LoginSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useState, useTransition } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 import FormError from '@/components/auth/FormError'
 import FormSuccess from '@/components/auth/FormSuccess'
@@ -13,6 +13,7 @@ import CardWrapper from '@/components/CardWrapper'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Link from 'next/link'
 
 const SignInForm = () => {
 	const searchParams = useSearchParams()
@@ -38,7 +39,7 @@ const SignInForm = () => {
 		setSuccess('')
 
 		startTransition(() => {
-			loginUser(values).then(data => {
+			signInUser(values).then(data => {
 				data?.error && setError(data.error)
 				data?.message && setSuccess(data.message)
 			})
@@ -77,6 +78,9 @@ const SignInForm = () => {
 									<FormControl>
 										<Input {...field} disabled={isPending} type='password' placeholder='enter password' />
 									</FormControl>
+									<Button className='px-0 font-normal' size={'sm'} variant={'link'} asChild>
+										<Link href={'/reset'}>Forgot password?</Link>
+									</Button>
 									<FormMessage />
 								</FormItem>
 							)}

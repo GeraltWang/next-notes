@@ -9,7 +9,7 @@ import { genVerificationToken } from '@/lib/verification-token'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { sendVerificationEmail } from '@/lib/mail'
 
-export const loginUser = async (data: z.infer<typeof LoginSchema>) => {
+export const signInUser = async (data: z.infer<typeof LoginSchema>) => {
 	const validateFields = LoginSchema.safeParse(data)
 
 	if (!validateFields.success) {
