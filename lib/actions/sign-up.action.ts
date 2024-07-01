@@ -27,7 +27,7 @@ export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
 			}
 		}
 
-		const hashedPassword = await encrypt(password, 10)
+		const hashedPassword = await encrypt(password)
 		await prisma.user.create({
 			data: {
 				name,

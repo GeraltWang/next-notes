@@ -45,7 +45,7 @@ export const newPassword = async (values: z.infer<typeof ResetPasswordSchema>, t
 		}
 		// 6. 更新密码
 		const { password } = validatedFields.data
-		const hashedNewPassword = await encrypt(password, 10)
+		const hashedNewPassword = await encrypt(password)
 		await prisma.user.update({
 			where: {
 				id: existingUser.id,
