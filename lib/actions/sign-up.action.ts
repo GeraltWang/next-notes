@@ -36,7 +36,6 @@ export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
 			},
 		})
 		const vToken = await genVerificationToken(email)
-		// TODO: Send email with verification token
 		await sendVerificationEmail(vToken.email, vToken.token)
 		return {
 			message: 'Confirmation email sent! Please verify your email address.',
