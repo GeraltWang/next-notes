@@ -1,5 +1,5 @@
 'use server'
-import { handleError } from '@/lib/utils'
+import { getErrorMessage } from '@/lib/utils'
 import prisma from '@/prisma/client'
 import { RegisterSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
@@ -41,6 +41,8 @@ export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
 			message: 'Confirmation email sent! Please verify your email address.',
 		}
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }

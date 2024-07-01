@@ -1,6 +1,6 @@
 'use server'
 import prisma from '@/prisma/client'
-import { handleError } from '@/lib/utils'
+import { getErrorMessage } from '@/lib/utils'
 
 export const getVerificationToKenByToken = async (token: string) => {
 	try {
@@ -11,7 +11,9 @@ export const getVerificationToKenByToken = async (token: string) => {
 		})
 		return vToken
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }
 
@@ -24,6 +26,8 @@ export const getVerificationToKenByEmail = async (email: string) => {
 		})
 		return vToken
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }

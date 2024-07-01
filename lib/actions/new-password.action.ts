@@ -1,7 +1,7 @@
 'use server'
 import { getPasswordResetTokenByToken } from '@/lib/actions/password-reset-token.action'
 import { getUserByEmail } from '@/lib/actions/user.action'
-import { handleError } from '@/lib/utils'
+import { getErrorMessage } from '@/lib/utils'
 import prisma from '@/prisma/client'
 import { ResetPasswordSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
@@ -64,6 +64,8 @@ export const newPassword = async (values: z.infer<typeof ResetPasswordSchema>, t
 			message: 'Password updated!',
 		}
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }

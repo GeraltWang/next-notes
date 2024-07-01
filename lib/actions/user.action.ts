@@ -1,5 +1,5 @@
 'use server'
-import { handleError } from '@/lib/utils'
+import { getErrorMessage } from '@/lib/utils'
 import prisma from '@/prisma/client'
 
 export const getUserByEmail = async (email: string) => {
@@ -16,7 +16,9 @@ export const getUserByEmail = async (email: string) => {
 
 		return null
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }
 
@@ -34,6 +36,8 @@ export const getUserById = async (id: string) => {
 
 		return null
 	} catch (error) {
-		handleError(error)
+		return {
+			error: getErrorMessage(error),
+		}
 	}
 }

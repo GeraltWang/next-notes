@@ -1,5 +1,5 @@
 'use server'
-import { handleAuthError, handleError } from '@/lib/utils'
+import { handleAuthError } from '@/lib/utils'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 import { LoginSchema } from '@/schema/user'
 import { signIn } from 'auth'
@@ -50,6 +50,5 @@ export const signInUser = async (data: z.infer<typeof LoginSchema>) => {
 			return handleAuthError(error)
 		}
 		throw error
-		// throw handleError(error)
 	}
 }
