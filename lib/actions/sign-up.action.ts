@@ -5,7 +5,7 @@ import { RegisterSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 import { z } from 'zod'
 import { getUserByEmail } from '@/lib/actions/user.action'
-import { genVerificationToken } from '@/lib/verification-token'
+import { genVerificationToken } from '@/lib/token'
 import { sendVerificationEmail } from '@/lib/mail'
 
 export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {

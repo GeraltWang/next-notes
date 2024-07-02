@@ -5,7 +5,7 @@ import { LoginSchema } from '@/schema/user'
 import { signIn } from 'auth'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
-import { genVerificationToken } from '@/lib/verification-token'
+import { genVerificationToken } from '@/lib/token'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { sendVerificationEmail } from '@/lib/mail'
 
