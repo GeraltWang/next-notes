@@ -1,6 +1,6 @@
 'use client'
 import { signInUser } from '@/lib/actions/sign-in.action'
-import { LoginSchema } from '@/schema/user'
+import { SignInSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
@@ -28,15 +28,15 @@ const SignInForm = () => {
 
 	const [isPending, startTransition] = useTransition()
 
-	const form = useForm<z.infer<typeof LoginSchema>>({
-		resolver: zodResolver(LoginSchema),
+	const form = useForm<z.infer<typeof SignInSchema>>({
+		resolver: zodResolver(SignInSchema),
 		defaultValues: {
 			email: '',
 			password: '',
 		},
 	})
 
-	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+	const onSubmit = (values: z.infer<typeof SignInSchema>) => {
 		setError('')
 		setSuccess('')
 

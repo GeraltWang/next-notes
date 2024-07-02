@@ -7,13 +7,13 @@ import { genTwoFactorToken, genVerificationToken } from '@/lib/token'
 import { handleAuthError } from '@/lib/utils'
 import prisma from '@/prisma/client'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
-import { LoginSchema } from '@/schema/user'
+import { SignInSchema } from '@/schema/user'
 import { signIn } from 'auth'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
 
-export const signInUser = async (data: z.infer<typeof LoginSchema>) => {
-	const validateFields = LoginSchema.safeParse(data)
+export const signInUser = async (data: z.infer<typeof SignInSchema>) => {
+	const validateFields = SignInSchema.safeParse(data)
 
 	if (!validateFields.success) {
 		return {

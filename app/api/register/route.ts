@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
-import { RegisterSchema } from '@/schema/user'
+import { SignUpSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 
 export async function POST(request: NextRequest) {
 	const body = await request.json()
 
-	const validation = RegisterSchema.safeParse(body)
+	const validation = SignUpSchema.safeParse(body)
 	if (!validation.success) {
 		return NextResponse.json(validation.error.errors, { status: 400 })
 	}

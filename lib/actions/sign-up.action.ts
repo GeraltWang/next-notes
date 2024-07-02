@@ -1,16 +1,16 @@
 'use server'
 import { getErrorMessage } from '@/lib/utils'
 import prisma from '@/prisma/client'
-import { RegisterSchema } from '@/schema/user'
+import { SignUpSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 import { z } from 'zod'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { genVerificationToken } from '@/lib/token'
 import { sendVerificationEmail } from '@/lib/mail'
 
-export const signUpUser = async (data: z.infer<typeof RegisterSchema>) => {
+export const signUpUser = async (data: z.infer<typeof SignUpSchema>) => {
 	try {
-		const validateFields = RegisterSchema.safeParse(data)
+		const validateFields = SignUpSchema.safeParse(data)
 
 		if (!validateFields.success) {
 			return {

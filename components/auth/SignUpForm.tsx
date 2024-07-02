@@ -1,6 +1,6 @@
 'use client'
 import { signUpUser } from '@/lib/actions/sign-up.action'
-import { RegisterSchema } from '@/schema/user'
+import { SignUpSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -20,8 +20,8 @@ const SignUpForm = () => {
 
 	const [isPending, startTransition] = useTransition()
 
-	const form = useForm<z.infer<typeof RegisterSchema>>({
-		resolver: zodResolver(RegisterSchema),
+	const form = useForm<z.infer<typeof SignUpSchema>>({
+		resolver: zodResolver(SignUpSchema),
 		defaultValues: {
 			email: '',
 			password: '',
@@ -29,7 +29,7 @@ const SignUpForm = () => {
 		},
 	})
 
-	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+	const onSubmit = (values: z.infer<typeof SignUpSchema>) => {
 		setError('')
 		setSuccess('')
 
