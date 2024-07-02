@@ -1,5 +1,6 @@
 import authConfig from '@/auth.config'
 import { getUserById } from '@/lib/actions/user.action'
+import { getTwoFactorConfirmationByUserId } from '@/lib/actions/two-factor-confirmation'
 import prisma from '@/prisma/client'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
@@ -52,7 +53,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			// prevent the user from signing in if the email is not verified
 			const existingUser = await getUserById(user.id)
 			if (!existingUser?.emailVerified) return false
-			// TODO: 2FA CHECK
+			// if the user has two factor enabled then check if the two factor confirmation exists
+			if (existingUser.isTwoFactorEnabled) {
+				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id)
+				if (!twoFactorConfirmation) return false
+				await prisma.twoFactorConfirmation.delete({
+					where: {
+						id: twoFactorConfirmation.id,
+					},
+				})
+			}
 			return true
 		},
 		// jwt callback returns the token and pass it to the session callback

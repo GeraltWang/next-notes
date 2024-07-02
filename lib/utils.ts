@@ -37,3 +37,14 @@ export const handleAuthError = (error: AuthError) => {
 			}
 	}
 }
+
+/**
+ * 生成过期时间的函数
+ * @param durationInMinutes 过期时长，以分钟为单位
+ * @returns 返回一个表示过期时间的Date对象
+ */
+export const generateExpiryTime = (durationInMinutes: number): Date => {
+	const now = new Date()
+	const expiryTime = new Date(now.getTime() + durationInMinutes * 60000) // 60000毫秒等于1分钟
+	return expiryTime
+}

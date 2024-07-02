@@ -20,6 +20,8 @@ const SignInForm = () => {
 	const urlError =
 		searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email is already in use by another account!' : ''
 
+	const [show2FA, setShow2FA] = useState(false)
+
 	const [error, setError] = useState<string | undefined>('')
 
 	const [success, setSuccess] = useState<string | undefined>('')
@@ -39,10 +41,24 @@ const SignInForm = () => {
 		setSuccess('')
 
 		startTransition(() => {
-			signInUser(values).then(data => {
-				data?.error && setError(data.error)
-				data?.message && setSuccess(data.message)
-			})
+			signInUser(values)
+				.then(data => {
+					if (data?.error) {
+						form.reset()
+						setError(data.error)
+					}
+					if (data?.message) {
+						form.reset()
+						setSuccess(data.message)
+					}
+
+					if (data?.twoFactor) {
+						setShow2FA(true)
+					}
+				})
+				.catch(() => {
+					setError('An error occurred!')
+				})
 		})
 	}
 
@@ -56,40 +72,59 @@ const SignInForm = () => {
 			<Form {...form}>
 				<form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-4'>
-						<FormField
-							control={form.control}
-							name='email'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email</FormLabel>
-									<FormControl>
-										<Input {...field} disabled={isPending} type='email' placeholder='example@email.com' />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='password'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Password</FormLabel>
-									<FormControl>
-										<Input {...field} disabled={isPending} type='password' placeholder='enter password' />
-									</FormControl>
-									<Button className='px-0 font-normal' size={'sm'} variant={'link'} asChild>
-										<Link href={'/reset'}>Forgot password?</Link>
-									</Button>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						{show2FA && (
+							<FormField
+								control={form.control}
+								name='code'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Two Factor Code</FormLabel>
+										<FormControl>
+											<Input {...field} disabled={isPending} type='text' placeholder='two factor code' />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
+						{!show2FA && (
+							<>
+								<FormField
+									control={form.control}
+									name='email'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input {...field} disabled={isPending} type='email' placeholder='example@email.com' />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name='password'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Password</FormLabel>
+											<FormControl>
+												<Input {...field} disabled={isPending} type='password' placeholder='enter password' />
+											</FormControl>
+											<Button className='px-0 font-normal' size={'sm'} variant={'link'} asChild>
+												<Link href={'/reset'}>Forgot password?</Link>
+											</Button>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</>
+						)}
 					</div>
 					<FormError message={error || urlError} />
 					<FormSuccess message={success} />
 					<Button className='w-full' type='submit' disabled={isPending}>
-						Sign In
+						{show2FA ? 'Confirm' : 'Sign In'}
 					</Button>
 				</form>
 			</Form>

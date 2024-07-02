@@ -1,7 +1,10 @@
-import { v4 as uuidV4 } from 'uuid'
-import prisma from '@/prisma/client'
-import { getVerificationToKenByEmail } from '@/lib/actions/verification-token.action'
 import { getPasswordResetToKenByEmail } from '@/lib/actions/password-reset-token.action'
+import { getTwoFactorTokenByEmail } from '@/lib/actions/two-factor-token'
+import { getVerificationToKenByEmail } from '@/lib/actions/verification-token.action'
+import { generateExpiryTime } from '@/lib/utils'
+import prisma from '@/prisma/client'
+import crypto from 'crypto'
+import { v4 as uuidV4 } from 'uuid'
 
 /**
  * 生成账户激活邮件 token
@@ -10,7 +13,7 @@ import { getPasswordResetToKenByEmail } from '@/lib/actions/password-reset-token
  */
 export const genVerificationToken = async (email: string) => {
 	const token = uuidV4()
-	const expires = new Date(new Date().getTime() + 3600 * 1000)
+	const expires = generateExpiryTime(60)
 
 	const existingToken = await getVerificationToKenByEmail(email)
 	if (existingToken) {
@@ -39,7 +42,7 @@ export const genVerificationToken = async (email: string) => {
  */
 export const genPasswordResetToken = async (email: string) => {
 	const token = uuidV4()
-	const expires = new Date(new Date().getTime() + 3600 * 1000)
+	const expires = generateExpiryTime(60)
 
 	const existingToken = await getPasswordResetToKenByEmail(email)
 	if (existingToken) {
@@ -59,4 +62,32 @@ export const genPasswordResetToken = async (email: string) => {
 	})
 
 	return passwordResetToken
+}
+
+/**
+ * 生成两步验证 token
+ * @param email
+ */
+export const genTwoFactorToken = async (email: string) => {
+	const token = crypto.randomInt(100000, 1000000).toString()
+	const expires = generateExpiryTime(15)
+
+	const existingToken = await getTwoFactorTokenByEmail(email)
+	if (existingToken) {
+		await prisma.twoFactorToken.delete({
+			where: {
+				id: existingToken.id,
+			},
+		})
+	}
+
+	const twoFactorToken = await prisma.twoFactorToken.create({
+		data: {
+			token,
+			email,
+			expires,
+		},
+	})
+
+	return twoFactorToken
 }
