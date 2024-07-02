@@ -1,6 +1,5 @@
 'use server'
 import prisma from '@/prisma/client'
-import { getErrorMessage } from '@/lib/utils'
 
 export const getPasswordResetTokenByToken = async (token: string) => {
 	try {
@@ -11,9 +10,10 @@ export const getPasswordResetTokenByToken = async (token: string) => {
 		})
 		return rToken
 	} catch (error) {
-		return {
-			error: getErrorMessage(error),
-		}
+		// return {
+		// 	error: getErrorMessage(error),
+		// }
+		return null
 	}
 }
 
@@ -26,8 +26,6 @@ export const getPasswordResetToKenByEmail = async (email: string) => {
 		})
 		return vToken
 	} catch (error) {
-		return {
-			error: getErrorMessage(error),
-		}
+		return null
 	}
 }
