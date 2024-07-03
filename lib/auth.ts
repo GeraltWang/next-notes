@@ -1,0 +1,11 @@
+import { auth } from 'auth'
+
+/**
+ * Get the current user from the session
+ * @abstract server only
+ * @returns
+ */
+export const currentUser = async () => {
+	const session = await auth()
+	return session?.user
+}

@@ -2,8 +2,9 @@ import React from 'react'
 import { auth } from 'auth'
 import Image from 'next/image'
 import Link from 'next/link'
-// import AuthProvider from './AuthProvider'
-import Avatar from './Avatar'
+import UserButton from '@/components/auth/UserButton'
+import AuthProvider from './AuthProvider'
+// import Avatar from './Avatar'
 
 const Header = async ({ children }: { children?: React.ReactNode }) => {
 	const session = await auth()
@@ -16,9 +17,10 @@ const Header = async ({ children }: { children?: React.ReactNode }) => {
 					<strong>Next Notes</strong>
 				</section>
 			</Link>
-			{/* <AuthProvider session={session}> */}
-			<Avatar session={session} />
-			{/* </AuthProvider> */}
+			<AuthProvider session={session}>
+				{/* <Avatar session={session} /> */}
+				<UserButton />
+			</AuthProvider>
 		</header>
 	)
 }
