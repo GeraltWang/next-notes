@@ -16,13 +16,13 @@ export default function SidebarNoteList({ notes }: Props) {
 	return (
 		<ul className='notes-list'>
 			{notes.map(noteItem => {
-				const { noteId, title, content, header } = noteItem
+				const { id, title, content, header } = noteItem
 				if (!searchText || (searchText && title.toLowerCase().includes(searchText.toLowerCase()))) {
 					return (
-						<li key={noteId}>
+						<li key={id}>
 							<SidebarNoteItemContent
-								key={noteId}
-								id={noteId}
+								key={id}
+								id={id}
 								title={title}
 								expandedChildren={
 									<p className='sidebar-note-excerpt'>{content.substring(0, 20) || <i>(No content)</i>}</p>

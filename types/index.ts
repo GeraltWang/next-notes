@@ -1,8 +1,9 @@
 export interface Note {
-	noteId: string
+	id: string
+	authorId: string
 	title: string
 	content: string
-	updateTime: string
+	updatedAt: string
 }
 
 export interface SearchParamProps {

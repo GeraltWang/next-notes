@@ -8,14 +8,14 @@ interface Props {
 }
 
 const SidebarNoteItem = ({ noteId, note }: Props) => {
-	const { title, content = '', updateTime } = note
+	const { title, content = '', updatedAt } = note
 	return (
 		<SidebarNoteItemContent
 			id={noteId}
 			title={note.title}
 			expandedChildren={<p className='sidebar-note-excerpt'>{content.substring(0, 20) || <i>(No content)</i>}</p>}
 		>
-			<SidebarNoteItemHeader title={title} updateTime={updateTime} />
+			<SidebarNoteItemHeader title={title} updateTime={updatedAt} />
 		</SidebarNoteItemContent>
 	)
 }

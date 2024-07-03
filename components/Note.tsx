@@ -11,7 +11,7 @@ interface Props {
 
 const Note = ({ noteId, note }: Props) => {
 	const t = useTranslations('Basic')
-	const { title, content, updateTime } = note
+	const { title, content, updatedAt } = note
 
 	return (
 		<div className='note'>
@@ -19,7 +19,7 @@ const Note = ({ noteId, note }: Props) => {
 				<h1 className='note-title'>{title}</h1>
 				<div className='note-menu' role='menubar'>
 					<small className='note-updated-at' role='status'>
-						Last updated on {dayjs(updateTime).format('YYYY-MM-DD hh:mm:ss')}
+						Last updated on {updatedAt}
 					</small>
 					<EditButton noteId={noteId}>{t('edit')}</EditButton>
 				</div>

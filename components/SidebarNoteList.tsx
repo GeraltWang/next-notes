@@ -1,9 +1,9 @@
-import { getAllNotes } from '@/lib/redis'
+import { getNotes } from '@/lib/actions/notes.action'
 import SidebarNoteItemHeader from './SidebarNoteItemHeader'
 import SidebarNoteListFilter from './SidebarNoteListFilter'
 
 const SidebarNoteList = async () => {
-	const notes = await getAllNotes()
+	const notes = await getNotes()
 
 	if (notes.length == 0) {
 		return <div className='notes-empty'>{'No notes created yet!'}</div>
@@ -14,7 +14,7 @@ const SidebarNoteList = async () => {
 			notes={notes.map(note => {
 				return {
 					...note,
-					header: <SidebarNoteItemHeader title={note.title} updateTime={note.updateTime} />,
+					header: <SidebarNoteItemHeader title={note.title} updateTime={note.updatedAt} />,
 				}
 			})}
 		/>

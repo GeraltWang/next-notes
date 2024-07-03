@@ -11,7 +11,7 @@ const Sidebar = () => {
 
 	return (
 		<section className='col sidebar'>
-			<section className='sidebar-menu' role='menubar'>
+			<section className='flex justify-between gap-2 px-4 pt-4' role='menubar'>
 				<SidebarSearchField />
 				<EditButton noteId={null}>{t('new')}</EditButton>
 			</section>

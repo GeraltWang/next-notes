@@ -1,11 +1,11 @@
 import Note from '@/components/Note'
-import { getNote } from '@/lib/redis'
+import { getNoteById } from '@/lib/actions/notes.action'
 import { SearchParamProps } from '@/types'
 
 const NoteDetailPage = async ({ params }: SearchParamProps) => {
 	// 动态路由 获取笔记 id
 	const noteId = params.id
-	const note = await getNote(noteId)
+	const note = await getNoteById(noteId)
 
 	if (note == null) {
 		return (

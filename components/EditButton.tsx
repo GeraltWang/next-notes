@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import { Button } from '@/components/ui/button'
 
 interface Props {
 	noteId: string | null
@@ -9,14 +10,11 @@ interface Props {
 const EditButton = ({ noteId, children }: Props) => {
 	const isDraft = noteId == null
 	return (
-		<Link href={`/note/edit/${noteId || ''}`} className='link--unstyled'>
-			<button
-				className={['edit-button', isDraft ? 'edit-button--solid' : 'edit-button--outline'].join(' ')}
-				role='menuitem'
-			>
+		<Button size={'sm'} asChild>
+			<Link href={`/note/edit/${noteId || ''}`} className='link--unstyled'>
 				{children}
-			</button>
-		</Link>
+			</Link>
+		</Button>
 	)
 }
 

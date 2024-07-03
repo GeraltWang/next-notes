@@ -1,10 +1,10 @@
 import NoteEditor from '@/components/NoteEditor'
-import { getNote } from '@/lib/redis'
+import { getNoteById } from '@/lib/actions/notes.action'
 import { SearchParamProps } from '@/types'
 
 const NoteEditPage = async ({ params }: SearchParamProps) => {
 	const noteId = params.id
-	const note = await getNote(noteId)
+	const note = await getNoteById(noteId)
 
 	if (note === null) {
 		return (
