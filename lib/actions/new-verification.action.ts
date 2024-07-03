@@ -4,6 +4,9 @@ import { getErrorMessage } from '@/lib/utils'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { getVerificationToKenByToken } from '@/lib/actions/verification-token.action'
 
+/**
+ * Verify user email
+ */
 export const newVerification = async (token: string) => {
 	try {
 		const existingToken = await getVerificationToKenByToken(token)

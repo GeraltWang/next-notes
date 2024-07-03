@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useState, useTransition } from 'react'
+import { useTranslations } from 'next-intl'
+import { SIGN_IN_ROUTE } from '@/routes'
 
 import FormError from '@/components/auth/FormError'
 import FormSuccess from '@/components/auth/FormSuccess'
@@ -14,6 +16,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 
 const ResetForm = () => {
+	const t = useTranslations('Auth')
+
 	const [error, setError] = useState<string | undefined>('')
 
 	const [success, setSuccess] = useState<string | undefined>('')
@@ -39,7 +43,7 @@ const ResetForm = () => {
 		})
 	}
 	return (
-		<CardWrapper headerLabel={'Forgot your password?'} backButtonLabel={'Back to sign in'} backButtonHref='/sign-in'>
+		<CardWrapper headerLabel={t('forgotPassword')} backButtonLabel={t('backToSignIn')} backButtonHref={SIGN_IN_ROUTE}>
 			<Form {...form}>
 				<form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-4'>
@@ -48,7 +52,7 @@ const ResetForm = () => {
 							name='email'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel>{t('email')}</FormLabel>
 									<FormControl>
 										<Input {...field} disabled={isPending} type='email' placeholder='example@email.com' />
 									</FormControl>
@@ -60,7 +64,7 @@ const ResetForm = () => {
 					<FormError message={error} />
 					<FormSuccess message={success} />
 					<Button className='w-full' type='submit' disabled={isPending}>
-						Send reset email
+						{t('sendResetEmail')}
 					</Button>
 				</form>
 			</Form>

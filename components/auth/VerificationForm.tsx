@@ -1,13 +1,16 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
 import CardWrapper from '@/components/CardWrapper'
 import FormError from '@/components/auth/FormError'
 import FormSuccess from '@/components/auth/FormSuccess'
-import { BeatLoader } from 'react-spinners'
-import { useSearchParams } from 'next/navigation'
 import { newVerification } from '@/lib/actions/new-verification.action'
+import { SIGN_IN_ROUTE } from '@/routes'
+import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import { BeatLoader } from 'react-spinners'
 
 const VerificationForm = () => {
+	const t = useTranslations('Auth')
 	const searchParams = useSearchParams()
 	const token = searchParams.get('token')
 
@@ -40,7 +43,11 @@ const VerificationForm = () => {
 	}, [onSubmit])
 
 	return (
-		<CardWrapper headerLabel='Confirm your verification' backButtonLabel='Back to sign in' backButtonHref='/sign-in'>
+		<CardWrapper
+			headerLabel='Confirm your verification'
+			backButtonLabel={t('backToSignIn')}
+			backButtonHref={SIGN_IN_ROUTE}
+		>
 			<div className='flex-center w-full'>
 				{!success && !error && <BeatLoader />}
 				{!success && <FormError message={error} />}

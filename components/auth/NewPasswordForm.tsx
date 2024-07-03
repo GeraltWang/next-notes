@@ -2,10 +2,11 @@
 import { newPassword } from '@/lib/actions/new-password.action'
 import { ResetPasswordSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useState, useTransition } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 import FormError from '@/components/auth/FormError'
 import FormSuccess from '@/components/auth/FormSuccess'
@@ -13,9 +14,13 @@ import CardWrapper from '@/components/CardWrapper'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { SIGN_IN_ROUTE } from '@/routes'
 
 const NewPasswordForm = () => {
+	const t = useTranslations('Auth')
+
 	const searchParams = useSearchParams()
+
 	const token = searchParams.get('token')
 
 	const [error, setError] = useState<string | undefined>('')
@@ -43,7 +48,7 @@ const NewPasswordForm = () => {
 		})
 	}
 	return (
-		<CardWrapper headerLabel={'Password reset'} backButtonLabel={'Back to sign in'} backButtonHref='/sign-in'>
+		<CardWrapper headerLabel={t('passwordReset')} backButtonLabel={t('backToSignIn')} backButtonHref={SIGN_IN_ROUTE}>
 			<Form {...form}>
 				<form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-4'>
@@ -52,7 +57,7 @@ const NewPasswordForm = () => {
 							name='password'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>New password</FormLabel>
+									<FormLabel>{t('newPassword')}</FormLabel>
 									<FormControl>
 										<Input {...field} disabled={isPending} type='password' placeholder='enter new password' />
 									</FormControl>
@@ -64,7 +69,7 @@ const NewPasswordForm = () => {
 					<FormError message={error} />
 					<FormSuccess message={success} />
 					<Button className='w-full' type='submit' disabled={isPending}>
-						Confirm
+						{t('confirm')}
 					</Button>
 				</form>
 			</Form>

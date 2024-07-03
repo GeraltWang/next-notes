@@ -7,5 +7,24 @@
 		"save": "保存",
 		"saving": "保存中",
 		"delete": "删除"
+	},
+	"Auth": {
+		"signUp": "注册",
+		"signIn": "登录",
+		"signOut": "登出",
+		"confirm": "确认",
+		"sendResetEmail": "发送密码重置邮件",
+		"name": "用户名",
+		"email": "邮箱",
+		"password": "密码",
+		"newPassword": "新密码",
+		"twoFactorCode": "二步验证码",
+		"welcome": "欢迎回来",
+		"forgotPassword": "忘记密码？",
+		"passwordReset": "密码重置",
+		"createAccount": "注册账号",
+		"dontHaveAccount": "还没有账号？点击注册",
+		"haveAccount": "已有账号？点击登录",
+		"backToSignIn": "返回登录页"
 	}
 }

@@ -2,6 +2,7 @@
 import { signInUser } from '@/lib/actions/sign-in.action'
 import { SignInSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,7 +17,10 @@ import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 
 const SignInForm = () => {
+	const t = useTranslations('Auth')
+
 	const searchParams = useSearchParams()
+
 	const urlError =
 		searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email is already in use by another account!' : ''
 
@@ -63,12 +67,7 @@ const SignInForm = () => {
 	}
 
 	return (
-		<CardWrapper
-			showSocial
-			headerLabel={'Welcome back'}
-			backButtonLabel={"Don't have an account?"}
-			backButtonHref='/sign-up'
-		>
+		<CardWrapper showSocial headerLabel={t('welcome')} backButtonLabel={t('dontHaveAccount')} backButtonHref='/sign-up'>
 			<Form {...form}>
 				<form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-4'>
@@ -78,9 +77,9 @@ const SignInForm = () => {
 								name='code'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Two Factor Code</FormLabel>
+										<FormLabel>{t('twoFactorCode')}</FormLabel>
 										<FormControl>
-											<Input {...field} disabled={isPending} type='text' placeholder='two factor code' />
+											<Input {...field} disabled={isPending} type='text' placeholder={t('twoFactorCode')} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -94,7 +93,7 @@ const SignInForm = () => {
 									name='email'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Email</FormLabel>
+											<FormLabel>{t('email')}</FormLabel>
 											<FormControl>
 												<Input {...field} disabled={isPending} type='email' placeholder='example@email.com' />
 											</FormControl>
@@ -107,12 +106,12 @@ const SignInForm = () => {
 									name='password'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Password</FormLabel>
+											<FormLabel>{t('password')}</FormLabel>
 											<FormControl>
 												<Input {...field} disabled={isPending} type='password' placeholder='enter password' />
 											</FormControl>
 											<Button className='px-0 font-normal' size={'sm'} variant={'link'} asChild>
-												<Link href={'/reset'}>Forgot password?</Link>
+												<Link href={'/reset'}>{t('forgotPassword')}</Link>
 											</Button>
 											<FormMessage />
 										</FormItem>
@@ -124,7 +123,7 @@ const SignInForm = () => {
 					<FormError message={error || urlError} />
 					<FormSuccess message={success} />
 					<Button className='w-full' type='submit' disabled={isPending}>
-						{show2FA ? 'Confirm' : 'Sign In'}
+						{show2FA ? t('confirm') : t('signIn')}
 					</Button>
 				</form>
 			</Form>
