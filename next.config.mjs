@@ -13,6 +13,18 @@ const nextConfig = {
 			},
 		],
 	},
+	async rewrites() {
+		return [
+			{
+				source: '/en/api/:path*',
+				destination: '/api/:path*', // 不改变路径，但避免自动加上语言前缀
+			},
+			{
+				source: '/zh/api/:path*',
+				destination: '/api/:path*', // 不改变路径，但避免自动加上语言前缀
+			},
+		]
+	},
 }
 
 export default withNextIntl(nextConfig)
