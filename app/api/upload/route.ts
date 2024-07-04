@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server'
-import { revalidatePath } from 'next/cache'
-import { stat, mkdir, writeFile } from 'fs/promises'
-import { join } from 'path'
-import mime from 'mime'
+import { importNode } from '@/lib/actions/notes.action'
+import { getErrorMessage } from '@/lib/utils'
 import dayjs from 'dayjs'
-import { addNote } from '@/lib/redis'
+import { mkdir, stat, writeFile } from 'fs/promises'
+import mime from 'mime'
+import { revalidatePath } from 'next/cache'
+import { NextResponse } from 'next/server'
+import { join } from 'path'
 
 export async function POST(request: Request) {
 	// get formData
@@ -36,26 +37,25 @@ export async function POST(request: Request) {
 	}
 
 	try {
-		// 写入文件
 		const uniqueSuffix = `${Math.random().toString(36).slice(-6)}`
 		const filename = file.name.replace(/\.[^/.]+$/, '')
 		const uniqueFilename = `${filename}-${uniqueSuffix}.${mime.getExtension(file.type)}`
-		await writeFile(`${uploadDir}/${uniqueFilename}`, buffer)
 
 		// 调用接口，写入数据库
-		const res = await addNote(
-			JSON.stringify({
-				title: filename,
-				content: buffer.toString('utf-8'),
-			})
-		)
+		const { noteId } = await importNode({
+			title: filename,
+			content: buffer.toString('utf-8'),
+		})
+
+		// 写入文件
+		await writeFile(`${uploadDir}/${uniqueFilename}`, buffer)
 
 		// 清除缓存
 		revalidatePath('/', 'layout')
 
-		return NextResponse.json({ fileUrl: `${relativeUploadDir}/${uniqueFilename}`, uid: res })
+		return NextResponse.json({ fileUrl: `${relativeUploadDir}/${uniqueFilename}`, noteId })
 	} catch (e) {
 		console.error(e)
-		return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 })
+		return NextResponse.json({ error: getErrorMessage(e) || 'Something went wrong.' }, { status: 500 })
 	}
 }

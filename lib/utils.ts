@@ -17,6 +17,7 @@ export const getErrorMessage = (error: unknown) => {
 	} else {
 		message = 'Something went wrong!'
 	}
+	return message
 }
 
 export const handleError = (error: unknown) => {

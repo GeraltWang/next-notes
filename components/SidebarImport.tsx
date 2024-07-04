@@ -32,7 +32,7 @@ const SidebarImport = () => {
 			}
 
 			const data = await response.json()
-			router.push(`/note/${data.uid}`)
+			router.push(`/note/${data.noteId}`)
 			router.refresh()
 		} catch (error) {
 			console.error('something went wrong')

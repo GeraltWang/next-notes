@@ -15,7 +15,7 @@ const SidebarNoteItemContent = ({ id, title, children, expandedChildren }: Props
 	const pathname = usePathname()
 
 	// 使用正则表达式从 URL 中提取数字 ID
-	const match = pathname.match(/\/note\/(\d+)/)
+	const match = pathname.match(/\/note\/([a-z,0-9]+)/)
 	const selectedId = match ? match[1] : null
 
 	const [isPending] = useTransition()

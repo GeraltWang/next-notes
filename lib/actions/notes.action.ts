@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { currentUser } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getErrorMessage } from '@/lib/utils'
 
 export const getNotes = async () => {
 	const user = await currentUser()
@@ -119,4 +120,35 @@ export const deleteNoteById = async (noteId: string) => {
 
 	revalidatePath('/', 'layout')
 	redirect('/')
+}
+
+export const importNode = async (values: z.infer<typeof NoteSchema>) => {
+	try {
+		const user = await currentUser()
+		if (!user) {
+			redirect('/sign-in')
+		}
+
+		const validatedFields = NoteSchema.safeParse(values)
+		if (!validatedFields.success) {
+			throw new Error('Invalid note data!')
+		}
+
+		const { title, content } = validatedFields.data
+
+		const newNote = await prisma.note.create({
+			data: {
+				title,
+				content,
+				authorId: user.id,
+			},
+		})
+
+		return {
+			message: 'Note imported!',
+			noteId: newNote.id,
+		}
+	} catch (error) {
+		throw getErrorMessage(error)
+	}
 }
