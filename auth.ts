@@ -69,7 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		},
 		// jwt callback returns the token and pass it to the session callback
 		async jwt({ token }) {
-			console.log('🚀 ~ callbacks jwt ~ { token }:', { token })
+			// console.log('🚀 ~ callbacks jwt ~ { token }:', { token })
 			// token.sub is the user id
 			if (!token.sub) return token
 			// check if the user exists in the database
@@ -81,7 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			return token
 		},
 		async session({ token, session }) {
-			console.log('🚀 ~ callbacks session ~ token:', { token })
+			// console.log('🚀 ~ callbacks session ~ token:', { token })
 			if (token.sub && session.user) {
 				session.user.id = token.sub
 			}
