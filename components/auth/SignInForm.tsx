@@ -51,6 +51,7 @@ const SignInForm = () => {
     startTransition(() => {
       signInUser(values, callbackUrl)
         .then((data) => {
+          /* eslint-ignore */
           if (data?.error) {
             // form.reset()
             setError(data.error)
