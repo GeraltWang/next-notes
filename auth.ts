@@ -1,6 +1,7 @@
 import authConfig from '@/auth.config'
-import { getUserById } from '@/lib/actions/user.action'
 import { getTwoFactorConfirmationByUserId } from '@/lib/actions/two-factor-confirmation'
+import { getUserById } from '@/lib/actions/user.action'
+import { getAccountByUserId } from '@/lib/data/account'
 import prisma from '@/prisma/client'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
@@ -10,6 +11,8 @@ import { JWT } from 'next-auth/jwt'
 export type ExtendedUser = {
 	id: string
 	role: UserRole
+	isTwoFactorEnabled: boolean
+	isOAuth: boolean
 } & DefaultSession['user']
 
 // extend the session to include the user id and role
@@ -75,18 +78,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			// check if the user exists in the database
 			const existingUser = await getUserById(token.sub)
 			if (!existingUser) return token
-			// if the user exists then add the user role to the token
+
+			const existingAccount = await getAccountByUserId(existingUser.id)
+			// if the user exists then add the user info to the token
+			token.name = existingUser.name
+			token.email = existingUser.email
 			token.role = existingUser.role as UserRole
+			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+			token.isOAuth = !!existingAccount
 
 			return token
 		},
 		async session({ token, session }) {
-			// console.log('🚀 ~ callbacks session ~ token:', { token })
+			console.log('🚀 ~ callbacks session ~ token:', { token })
 			if (token.sub && session.user) {
 				session.user.id = token.sub
 			}
 			if (token.role && session.user) {
 				session.user.role = token.role as UserRole
+			}
+			if (session.user) {
+				session.user.name = token.name
+				session.user.email = token.email as string
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+				session.user.isOAuth = token.isOAuth as boolean
 			}
 			return session
 		},

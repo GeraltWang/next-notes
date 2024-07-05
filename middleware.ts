@@ -1,8 +1,9 @@
 import authConfig from '@/auth.config'
 import { defaultLocale, locales } from '@/config'
-import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from '@/routes'
+import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, SIGN_IN_ROUTE } from '@/routes'
 import NextAuth from 'next-auth'
 import createMiddleware from 'next-intl/middleware'
+import { NextResponse } from 'next/server'
 
 const { auth } = NextAuth(authConfig)
 
@@ -51,7 +52,7 @@ export default auth(req => {
 	if (isAuthRoute) {
 		// 已登录，直接跳转到默认登录重定向地址
 		if (isLoggedIn) {
-			return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+			return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
 		}
 		// 未登录，继续执行 访问登录页 注册页
 		return intlMiddleware(req)
@@ -60,7 +61,9 @@ export default auth(req => {
 	// 3. 如果未登录 且 访问鉴权路由 则 跳转到登录页
 	if (!isLoggedIn && !isPublicRoute) {
 		// return Response.redirect(new URL(`/api/auth/signin?callbackUrl=${encodeURIComponent(nextUrl.toString())}`, nextUrl))
-		return Response.redirect(new URL(`/sign-in?callbackUrl=${encodeURIComponent(nextUrl.toString())}`, nextUrl))
+		return NextResponse.redirect(
+			new URL(`${SIGN_IN_ROUTE}?callbackUrl=${encodeURIComponent(nextUrl.toString())}`, nextUrl)
+		)
 	}
 
 	// 4. 如果是公共路由 则交由国际化中间件处理

@@ -37,6 +37,7 @@ const SignInForm = () => {
 		defaultValues: {
 			email: '',
 			password: '',
+			code: '',
 		},
 	})
 
@@ -48,11 +49,11 @@ const SignInForm = () => {
 			signInUser(values)
 				.then(data => {
 					if (data?.error) {
-						form.reset()
+						// form.reset()
 						setError(data.error)
 					}
 					if (data?.message) {
-						form.reset()
+						// form.reset()
 						setSuccess(data.message)
 					}
 

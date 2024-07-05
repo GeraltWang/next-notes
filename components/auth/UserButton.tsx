@@ -1,13 +1,20 @@
 'use client'
+import { useCurrentUser } from '@/hooks/use-current-user'
+import { useTranslations } from 'next-intl'
+
+import SignInButton from '@/components/auth/SignInButton'
 import SignOutButton from '@/components/auth/SignOutButton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { useCurrentUser } from '@/hooks/use-current-user'
-import { LogOut } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
-import { FaUser } from 'react-icons/fa'
+import { RiAccountCircleLine, RiLogoutBoxRLine, RiUserSettingsLine } from 'react-icons/ri'
 
 const UserButton = () => {
 	const t = useTranslations('Auth')
@@ -22,24 +29,31 @@ const UserButton = () => {
 						<Avatar>
 							<AvatarImage src={user?.image || ''} />
 							<AvatarFallback className='bg-secondary'>
-								<FaUser className='text-zinc-600' />
+								<RiAccountCircleLine className='w-5 h-5' />
 							</AvatarFallback>
 						</Avatar>
-						<span className='text-sm'>{user?.name}</span>
+						{/* <span className='text-sm'>{user?.name}</span> */}
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className='w-40' align='end'>
+						<DropdownMenuItem className='cursor-pointer'>
+							<RiUserSettingsLine className='w-4 h-4 mr-2' />
+							<Link className='text-inherit flex-1' href={'/settings'}>
+								个人中心
+							</Link>
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
 						<SignOutButton>
-							<DropdownMenuItem>
-								<LogOut className='w-4 h-4 mr-2' />
+							<DropdownMenuItem className='cursor-pointer'>
+								<RiLogoutBoxRLine className='w-4 h-4 mr-2' />
 								{t('signOut')}
 							</DropdownMenuItem>
 						</SignOutButton>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : (
-				<Button size={'sm'} asChild>
-					<Link href={'/sign-in'}>{t('signIn')}</Link>
-				</Button>
+				<SignInButton asChild>
+					<Button size={'sm'}>{t('signIn')}</Button>
+				</SignInButton>
 			)}
 		</>
 	)

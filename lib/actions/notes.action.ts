@@ -11,7 +11,9 @@ import { getErrorMessage } from '@/lib/utils'
 export const getNotes = async () => {
 	const user = await currentUser()
 	if (!user) {
-		redirect('/sign-in')
+		return {
+			error: 'Access denied!',
+		}
 	}
 
 	const notes = await prisma.note.findMany({
@@ -53,7 +55,9 @@ export const getNoteById = async (noteId: string) => {
 export const createNote = async (values: z.infer<typeof NoteSchema>) => {
 	const user = await currentUser()
 	if (!user) {
-		redirect('/sign-in')
+		return {
+			error: 'Access denied!',
+		}
 	}
 
 	const validatedFields = NoteSchema.safeParse(values)
@@ -80,7 +84,9 @@ export const createNote = async (values: z.infer<typeof NoteSchema>) => {
 export const updateNote = async (noteId: string, values: z.infer<typeof NoteSchema>) => {
 	const user = await currentUser()
 	if (!user) {
-		redirect('/sign-in')
+		return {
+			error: 'Access denied!',
+		}
 	}
 
 	const validatedFields = NoteSchema.safeParse(values)
@@ -109,9 +115,10 @@ export const updateNote = async (noteId: string, values: z.infer<typeof NoteSche
 export const deleteNoteById = async (noteId: string) => {
 	const user = await currentUser()
 	if (!user) {
-		redirect('/sign-in')
+		return {
+			error: 'Access denied!',
+		}
 	}
-
 	await prisma.note.delete({
 		where: {
 			id: noteId,
@@ -126,7 +133,9 @@ export const importNode = async (values: z.infer<typeof NoteSchema>) => {
 	try {
 		const user = await currentUser()
 		if (!user) {
-			redirect('/sign-in')
+			return {
+				error: 'Access denied!',
+			}
 		}
 
 		const validatedFields = NoteSchema.safeParse(values)

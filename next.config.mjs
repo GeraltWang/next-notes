@@ -25,6 +25,15 @@ const nextConfig = {
 			},
 		]
 	},
+	async redirects() {
+		return [
+			{
+				source: '/settings',
+				destination: '/settings/general',
+				permanent: true,
+			},
+		]
+	},
 }
 
 export default withNextIntl(nextConfig)

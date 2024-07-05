@@ -102,6 +102,7 @@ export const signInUser = async (data: z.infer<typeof SignInSchema>) => {
 			message: 'Sign in successfully!',
 		}
 	} catch (error) {
+		console.log('🚀 ~ signInUser ~ error:', error)
 		if (error instanceof AuthError) {
 			return handleAuthError(error)
 		}
