@@ -12,27 +12,27 @@ import { v4 as uuidV4 } from 'uuid'
  * @returns
  */
 export const genVerificationToken = async (email: string) => {
-	const token = uuidV4()
-	const expires = generateExpiryTime(60)
+  const token = uuidV4()
+  const expires = generateExpiryTime(60)
 
-	const existingToken = await getVerificationToKenByEmail(email)
-	if (existingToken) {
-		await prisma.verificationToken.delete({
-			where: {
-				id: existingToken.id,
-			},
-		})
-	}
+  const existingToken = await getVerificationToKenByEmail(email)
+  if (existingToken) {
+    await prisma.verificationToken.delete({
+      where: {
+        id: existingToken.id
+      }
+    })
+  }
 
-	const verificationToken = await prisma.verificationToken.create({
-		data: {
-			token,
-			email,
-			expires,
-		},
-	})
+  const verificationToken = await prisma.verificationToken.create({
+    data: {
+      token,
+      email,
+      expires
+    }
+  })
 
-	return verificationToken
+  return verificationToken
 }
 
 /**
@@ -41,27 +41,27 @@ export const genVerificationToken = async (email: string) => {
  * @returns
  */
 export const genPasswordResetToken = async (email: string) => {
-	const token = uuidV4()
-	const expires = generateExpiryTime(60)
+  const token = uuidV4()
+  const expires = generateExpiryTime(60)
 
-	const existingToken = await getPasswordResetToKenByEmail(email)
-	if (existingToken) {
-		await prisma.passwordResetToken.delete({
-			where: {
-				id: existingToken.id,
-			},
-		})
-	}
+  const existingToken = await getPasswordResetToKenByEmail(email)
+  if (existingToken) {
+    await prisma.passwordResetToken.delete({
+      where: {
+        id: existingToken.id
+      }
+    })
+  }
 
-	const passwordResetToken = await prisma.passwordResetToken.create({
-		data: {
-			token,
-			email,
-			expires,
-		},
-	})
+  const passwordResetToken = await prisma.passwordResetToken.create({
+    data: {
+      token,
+      email,
+      expires
+    }
+  })
 
-	return passwordResetToken
+  return passwordResetToken
 }
 
 /**
@@ -69,25 +69,25 @@ export const genPasswordResetToken = async (email: string) => {
  * @param email
  */
 export const genTwoFactorToken = async (email: string) => {
-	const token = crypto.randomInt(100000, 1000000).toString()
-	const expires = generateExpiryTime(5)
+  const token = crypto.randomInt(100000, 1000000).toString()
+  const expires = generateExpiryTime(5)
 
-	const existingToken = await getTwoFactorTokenByEmail(email)
-	if (existingToken) {
-		await prisma.twoFactorToken.delete({
-			where: {
-				id: existingToken.id,
-			},
-		})
-	}
+  const existingToken = await getTwoFactorTokenByEmail(email)
+  if (existingToken) {
+    await prisma.twoFactorToken.delete({
+      where: {
+        id: existingToken.id
+      }
+    })
+  }
 
-	const twoFactorToken = await prisma.twoFactorToken.create({
-		data: {
-			token,
-			email,
-			expires,
-		},
-	})
+  const twoFactorToken = await prisma.twoFactorToken.create({
+    data: {
+      token,
+      email,
+      expires
+    }
+  })
 
-	return twoFactorToken
+  return twoFactorToken
 }

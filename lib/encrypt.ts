@@ -8,7 +8,7 @@ import { DEFAULT_SALT_ROUNDS } from '@/config'
  * @returns
  */
 export const encrypt = async (content: string, saltRounds: string | number = DEFAULT_SALT_ROUNDS) => {
-	return await bcrypt.hash(content, saltRounds)
+  return await bcrypt.hash(content, saltRounds)
 }
 
 /**
@@ -18,5 +18,5 @@ export const encrypt = async (content: string, saltRounds: string | number = DEF
  * @returns
  */
 export const compare = async (content: string, hash: string) => {
-	return await bcrypt.compare(content, hash)
+  return await bcrypt.compare(content, hash)
 }

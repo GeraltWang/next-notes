@@ -3,22 +3,22 @@ import SidebarNoteItemHeader from './SidebarNoteItemHeader'
 import SidebarNoteListFilter from './SidebarNoteListFilter'
 
 const SidebarNoteList = async () => {
-	const notes = await getNotes()
+  const notes = await getNotes()
 
-	if (notes.length == 0) {
-		return <div className='notes-empty'>{'No notes created yet!'}</div>
-	}
+  if (notes.length == 0) {
+    return <div className='notes-empty'>{'No notes created yet!'}</div>
+  }
 
-	return (
-		<SidebarNoteListFilter
-			notes={notes.map(note => {
-				return {
-					...note,
-					header: <SidebarNoteItemHeader title={note.title} updateTime={note.updatedAt} />,
-				}
-			})}
-		/>
-	)
+  return (
+    <SidebarNoteListFilter
+      notes={notes.map((note) => {
+        return {
+          ...note,
+          header: <SidebarNoteItemHeader title={note.title} updateTime={note.updatedAt} />
+        }
+      })}
+    />
+  )
 }
 
 export default SidebarNoteList

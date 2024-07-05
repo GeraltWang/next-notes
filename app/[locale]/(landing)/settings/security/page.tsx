@@ -4,20 +4,20 @@ import AuthProvider from '@/components/AuthProvider'
 import { auth } from 'auth'
 
 const SecurityPage = async () => {
-	const session = await auth()
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Security</CardTitle>
-				<CardDescription>User security feature.</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<AuthProvider session={session}>
-					<SecurityForm />
-				</AuthProvider>
-			</CardContent>
-		</Card>
-	)
+  const session = await auth()
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Security</CardTitle>
+        <CardDescription>User security feature.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <AuthProvider session={session}>
+          <SecurityForm />
+        </AuthProvider>
+      </CardContent>
+    </Card>
+  )
 }
 
 export default SecurityPage

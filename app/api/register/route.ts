@@ -4,34 +4,34 @@ import { SignUpSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 
 export async function POST(request: NextRequest) {
-	const body = await request.json()
+  const body = await request.json()
 
-	const validation = SignUpSchema.safeParse(body)
-	if (!validation.success) {
-		return NextResponse.json(validation.error.errors, { status: 400 })
-	}
+  const validation = SignUpSchema.safeParse(body)
+  if (!validation.success) {
+    return NextResponse.json(validation.error.errors, { status: 400 })
+  }
 
-	const { name, email, password } = validation.data
+  const { name, email, password } = validation.data
 
-	const user = await prisma.user?.findUnique({
-		where: {
-			email,
-		},
-	})
+  const user = await prisma.user?.findUnique({
+    where: {
+      email
+    }
+  })
 
-	if (user) {
-		return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 })
-	}
+  if (user) {
+    return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 })
+  }
 
-	const hashedPassword = await encrypt(password)
+  const hashedPassword = await encrypt(password)
 
-	const newUser = await prisma.user.create({
-		data: {
-			name,
-			email,
-			password,
-		},
-	})
+  const newUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password
+    }
+  })
 
-	return NextResponse.json({ message: 'success', data: newUser }, { status: 200 })
+  return NextResponse.json({ message: 'success', data: newUser }, { status: 200 })
 }

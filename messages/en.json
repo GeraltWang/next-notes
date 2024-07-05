@@ -1,33 +1,33 @@
 {
-	"Basic": {
-		"new": "new",
-		"initText": "Click a note on the left to view something! 🥺",
-		"search": "search",
-		"edit": "edit",
-		"save": "save",
-		"saving": "saving",
-		"delete": "delete"
-	},
-	"Auth": {
-		"signUp": "Sign up",
-		"signIn": "Sign in",
-		"signOut": "Sign out",
-		"confirm": "Confirm",
-		"update": "Update",
-		"sendResetEmail": "Send reset email",
-		"name": "Name",
-		"email": "Email",
-		"password": "Password",
-		"newPassword": "New password",
-		"twoFactorCode": "Two Factor Code",
-		"isTwoFactorEnabled": "Two factor enabled",
-		"isTwoFactorEnabledDescription": "Enable two factor authentication to add an extra layer of security to your account.",
-		"welcome": "Welcome back",
-		"forgotPassword": "Forgot password?",
-		"passwordReset": "Password reset",
-		"createAccount": "Create an account",
-		"dontHaveAccount": "Don't have an account?",
-		"haveAccount": "Already have an account?",
-		"backToSignIn": "Back to sign in"
-	}
+  "Basic": {
+    "new": "new",
+    "initText": "Click a note on the left to view something! 🥺",
+    "search": "search",
+    "edit": "edit",
+    "save": "save",
+    "saving": "saving",
+    "delete": "delete"
+  },
+  "Auth": {
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "confirm": "Confirm",
+    "update": "Update",
+    "sendResetEmail": "Send reset email",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "twoFactorCode": "Two Factor Code",
+    "isTwoFactorEnabled": "Two factor enabled",
+    "isTwoFactorEnabledDescription": "Enable two factor authentication to add an extra layer of security to your account.",
+    "welcome": "Welcome back",
+    "forgotPassword": "Forgot password?",
+    "passwordReset": "Password reset",
+    "createAccount": "Create an account",
+    "dontHaveAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "backToSignIn": "Back to sign in"
+  }
 }
