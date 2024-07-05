@@ -5,11 +5,16 @@ import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
+import { useSearchParams } from 'next/navigation'
 
 const Social = () => {
+  const searchParams = useSearchParams()
+
+  const callbackUrl = searchParams.get('callbackUrl')
+
   const handleSocial = (provider: 'google' | 'github') => {
     signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT
     })
   }
 
