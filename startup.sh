@@ -9,4 +9,4 @@ else
     npx prisma migrate deploy
 fi
 
-npm run build && npm run start
+node server.js
