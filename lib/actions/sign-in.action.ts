@@ -11,6 +11,7 @@ import { SignInSchema } from '@/schema/user'
 import { signIn } from 'auth'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
+import { compare } from '../encrypt'
 
 export const signInUser = async (data: z.infer<typeof SignInSchema>, callbackUrl?: string | null) => {
   const validateFields = SignInSchema.safeParse(data)
@@ -30,6 +31,14 @@ export const signInUser = async (data: z.infer<typeof SignInSchema>, callbackUrl
       error: 'Invalid email or password!'
     }
   }
+
+  const passwordsMatch = await compare(password, existingUser.password)
+  if (!passwordsMatch) {
+    return {
+      error: 'Invalid email or password!'
+    }
+  }
+
   // 2. 检查用户是否已验证邮箱
   if (!existingUser.emailVerified) {
     const vToken = await genVerificationToken(existingUser.email)
