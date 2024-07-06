@@ -22,7 +22,6 @@ const SignInForm = () => {
   const searchParams = useSearchParams()
 
   const callbackUrl = searchParams.get('callbackUrl')
-  console.log('🚀 ~ SignInForm ~ callbackUrl:', callbackUrl)
 
   const urlError =
     searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email is already in use by another account!' : ''
@@ -51,7 +50,7 @@ const SignInForm = () => {
     startTransition(() => {
       signInUser(values, callbackUrl)
         .then((data) => {
-          /* eslint-ignore */
+          /* eslint-disable */
           if (data?.error) {
             // form.reset()
             setError(data.error)
