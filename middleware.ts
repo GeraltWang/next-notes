@@ -3,7 +3,7 @@ import { defaultLocale, locales } from '@/config'
 import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, SIGN_IN_ROUTE } from '@/routes'
 import NextAuth from 'next-auth'
 import createMiddleware from 'next-intl/middleware'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 const { auth } = NextAuth(authConfig)
 
@@ -99,58 +99,32 @@ const authMiddleware = auth((req) => {
 
   if (isApiAuthRoute) return
 
-  if (!isLoggedIn && !isAuthRoute) {
-    return NextResponse.redirect(new URL(SIGN_IN_ROUTE, nextUrl))
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      // Redirect logged-in users from auth routes
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+    }
+    return intlMiddleware(req)
   }
 
-  if (isLoggedIn && isAuthRoute) {
-    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+  if (!isLoggedIn && !isPublicRoute) {
+    // Redirect unauthorized users to login for non-public routes
+    let callbackUrl = nextUrl.pathname
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search
+    }
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl)
+    return Response.redirect(new URL(`${SIGN_IN_ROUTE}?callbackUrl=${encodedCallbackUrl}`, nextUrl))
   }
 
-  // if (!isLoggedIn && !isPublicRoute) {
-  //   // Redirect unauthorized users to login for non-public routes
-  //   let callbackUrl = nextUrl.pathname
-  //   if (nextUrl.search) {
-  //     callbackUrl += nextUrl.search
-  //   }
-  //   const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-  //   return Response.redirect(new URL(`${SIGN_IN_ROUTE}?callbackUrl=${encodedCallbackUrl}`, nextUrl))
-  // }
-
-  return intlMiddleware(req)
-
-  // if (isAuthRoute) {
-  //   if (isLoggedIn) {
-  //     // Redirect logged-in users from auth routes
-  //     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-  //   }
-  //   return intlMiddleware(req)
-  // }
-
-  // if (!isLoggedIn && !isPublicRoute) {
-  //   // Redirect unauthorized users to login for non-public routes
-  //   let callbackUrl = nextUrl.pathname
-  //   if (nextUrl.search) {
-  //     callbackUrl += nextUrl.search
-  //   }
-  //   const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-  //   return Response.redirect(new URL(`${SIGN_IN_ROUTE}?callbackUrl=${encodedCallbackUrl}`, nextUrl))
-  // }
-
-  // if (isLoggedIn) {
-  //   return intlMiddleware(req) // Apply internationalization for logged-in users
-  // }
+  if (isLoggedIn) {
+    return intlMiddleware(req) // Apply internationalization for logged-in users
+  }
 })
 
 export default function middleware(req: NextRequest) {
   const { nextUrl } = req
-  const isAuthRoute = routeTester(authRoutes, nextUrl.pathname)
   const isPublicRoute = routeTester(publicRoutes, nextUrl.pathname)
-
-  if (isAuthRoute) {
-    return (authMiddleware as any)(req)
-  }
-
   if (isPublicRoute) {
     return intlMiddleware(req)
   } else {
