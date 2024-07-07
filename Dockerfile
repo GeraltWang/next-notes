@@ -6,13 +6,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i -g pnpm
+RUN npm i --registry=https://registry.npmmirror.com
 
-RUN pnpm i --registry=https://registry.npmmirror.com
+RUN npx prisma generate
 
-RUN pnpm dlx prisma generate
-
-RUN pnpm run build
+RUN npm run build
 
 FROM base AS runner
 
