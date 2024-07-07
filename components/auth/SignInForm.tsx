@@ -51,7 +51,7 @@ const SignInForm = () => {
       signInUser(values, callbackUrl)
         .then((data) => {
           /* eslint-disable */
-          if (data?.error) {
+          if ('error' in data) {
             // form.reset()
             setError(data.error)
           }
