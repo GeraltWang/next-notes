@@ -9,4 +9,8 @@ else
     npx prisma migrate deploy
 fi
 
-node server.js
+# 启动 Node.js 应用
+node server.js &
+
+# 启动 OpenResty
+openresty -g 'daemon off;'
