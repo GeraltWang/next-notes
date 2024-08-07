@@ -50,12 +50,11 @@ const SignInForm = () => {
     startTransition(() => {
       signInUser(values, callbackUrl)
         .then((data) => {
-          /* eslint-disable */
           if ('error' in data) {
             // form.reset()
             setError(data.error)
           }
-          if (data?.message) {
+          if ('message' in data) {
             // form.reset()
             setSuccess(data.message)
           }
