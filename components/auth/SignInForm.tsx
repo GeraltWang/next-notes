@@ -59,7 +59,7 @@ const SignInForm = () => {
             setSuccess(data.message)
           }
 
-          if (data?.twoFactor) {
+          if ('twoFactor' in data) {
             setShow2FA(true)
           }
         })
