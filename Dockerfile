@@ -11,7 +11,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i --registry=https://registry.npmmirror.com
+RUN npm i --registry=https://mirrors.cloud.tencent.com/npm/
 
 RUN npx prisma generate
 
