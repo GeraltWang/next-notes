@@ -11,11 +11,15 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i --registry=https://mirrors.cloud.tencent.com/npm/
+RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 
-RUN npx prisma generate
+RUN npm i pnpm -g --registry=https://mirrors.cloud.tencent.com/npm/
 
-RUN npm run build
+RUN pnpm i --registry=https://mirrors.cloud.tencent.com/npm/
+
+RUN pnpx prisma generate
+
+RUN pnpm run build
 
 # 运行阶段
 FROM openresty-base AS runner
