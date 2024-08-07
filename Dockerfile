@@ -43,5 +43,8 @@ COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 # 安装 Node.js
 # RUN apk add --no-cache nodejs npm
 
+# 暴露 80 端口
+EXPOSE 80
+
 # 启动脚本
 ENTRYPOINT ["sh", "/app/startup.sh"]
