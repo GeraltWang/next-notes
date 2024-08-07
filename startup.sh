@@ -6,7 +6,7 @@ if echo "$MIGRATION_STATUS" | grep -q "Database schema is up to date"; then
     echo "No migrations needed."
 else
     echo "Running migrations..."
-    pnpx prisma migrate deploy
+    npx prisma migrate deploy
 fi
 
 # 启动 Node.js 应用
