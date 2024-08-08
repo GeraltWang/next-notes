@@ -43,7 +43,7 @@ RUN chmod +x /app/startup.sh
 EXPOSE 80
 
 # 为 next.js 服务设置端口环境变量
-ENV PORT 3000
+ENV PORT 80
 
 ENV HOSTNAME="0.0.0.0"
 
