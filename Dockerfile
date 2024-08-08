@@ -1,5 +1,7 @@
 # 使用 Node.js 作为基础镜像
-FROM node:20-alpine AS builder
+FROM node:20-alpine AS base
+
+FROM base AS builder
 
 # 构建阶段
 WORKDIR /app
@@ -8,13 +10,15 @@ COPY . .
 
 RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 
-RUN npm i pnpm -g --registry https://mirrors.cloud.tencent.com/npm/
+RUN npm i pnpm -g --registry=https://mirrors.cloud.tencent.com/npm/
 
-RUN pnpm i --registry https://mirrors.cloud.tencent.com/npm/
+RUN pnpm i --registry=https://mirrors.cloud.tencent.com/npm/
 
 RUN pnpx prisma generate
 
 RUN pnpm run build
+
+FROM base AS runner
 
 WORKDIR /app
 
