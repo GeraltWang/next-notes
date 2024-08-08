@@ -1,28 +1,20 @@
-# 使用 OpenResty 作为基础镜像
-FROM openresty/openresty:alpine AS openresty-base
-
 # 使用 Node.js 作为基础镜像
-FROM node:20-alpine AS node-base
+FROM node:20-alpine AS builder
 
 # 构建阶段
-FROM node-base AS builder
-
 WORKDIR /app
 
 COPY . .
 
 RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 
-RUN npm i pnpm -g --registry=https://mirrors.cloud.tencent.com/npm/
+RUN npm i pnpm -g --registry https://mirrors.cloud.tencent.com/npm/
 
-RUN pnpm i --registry=https://mirrors.cloud.tencent.com/npm/
+RUN pnpm i --registry https://mirrors.cloud.tencent.com/npm/
 
 RUN pnpx prisma generate
 
 RUN pnpm run build
-
-# 运行阶段
-FROM openresty-base AS runner
 
 WORKDIR /app
 
@@ -38,13 +30,20 @@ COPY startup.sh ./startup.sh
 RUN chmod +x /app/startup.sh
 
 # 复制 OpenResty 配置文件
-COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+# COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 # 安装 Node.js
-RUN apk add --no-cache nodejs npm
+# RUN apk add --no-cache nodejs npm
 
-# 暴露 80 端口
+# 暴露容器 80 端口
 EXPOSE 80
 
+# 为 next.js 服务设置端口环境变量
+ENV PORT 3000
+
+ENV HOSTNAME="0.0.0.0"
+
 # 启动脚本
-ENTRYPOINT ["sh", "/app/startup.sh"]
+CMD node server.js
+# 启动脚本
+# ENTRYPOINT ["sh", "/app/startup.sh"]
