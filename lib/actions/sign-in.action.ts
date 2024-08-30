@@ -102,6 +102,7 @@ export const signInUser = async (data: z.infer<typeof SignInSchema>, callbackUrl
   }
   // 4. 登录用户
   try {
+    // 将登录后重定向转到客户端进行处理，防止出现 error "NEXT_REDIRECT"
     await signIn('credentials', {
       email,
       password,
