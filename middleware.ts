@@ -14,7 +14,13 @@ const routeTester = (routes: string[], path: string) => {
   return Regex.test(path)
 }
 
-export default auth((req) => {
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale,
+  localePrefix: 'always'
+})
+
+export default auth(async (req) => {
   console.log('🚀 ~ authMiddleware ~ ROUTE:', req.nextUrl.pathname)
   const { nextUrl } = req
 
@@ -29,6 +35,12 @@ export default auth((req) => {
 
   const isAuthRoute = routeTester(authRoutes, nextUrl.pathname)
   console.log('🚀 ~ authMiddleware ~ isAuthRoute:', isAuthRoute)
+
+  // 先运行 intlMiddleware
+  const intlResponse = intlMiddleware(req)
+  if (intlResponse) {
+    return intlResponse
+  }
 
   if (isApiAuthRoute) {
     return
@@ -50,13 +62,7 @@ export default auth((req) => {
     return Response.redirect(new URL(`${SIGN_IN_ROUTE}?callbackUrl=${encodedCallbackUrl}`, nextUrl))
   }
 
-  return intlMiddleware(req)
-})
-
-const intlMiddleware = createMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: 'always'
+  return
 })
 
 export const config = {
