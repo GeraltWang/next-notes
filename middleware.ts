@@ -53,7 +53,8 @@ export default auth((req) => {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     }
     // 未登录，继续执行 访问登录页 注册页
-    return intlMiddleware(req)
+    // return intlMiddleware(req)
+    return
   }
 
   // 3. 如果未登录 且 访问鉴权路由 则 跳转到登录页
@@ -80,6 +81,5 @@ const intlMiddleware = createMiddleware({
 
 // 配置匹配器
 export const config = {
-  // matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 }
