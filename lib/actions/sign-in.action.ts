@@ -105,6 +105,7 @@ export const signInUser = async (data: z.infer<typeof SignInSchema>, callbackUrl
     await signIn('credentials', {
       email,
       password,
+      redirect: false,
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
     })
     return {
