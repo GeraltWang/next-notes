@@ -53,7 +53,7 @@ export default auth(async (req) => {
     return
   }
 
-  if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
+  if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname
     if (nextUrl.search) {
       callbackUrl += nextUrl.search
