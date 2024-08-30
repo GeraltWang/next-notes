@@ -35,13 +35,12 @@ const authMiddleware = auth((req) => {
 
 export default function middleware(req: NextRequest) {
   const publicPathnameRegex = RegExp(
-    `^(/(<span class="math-inline">\{locales\.join\("\|"\)\}\)\)?\(</span>{publicPages
-      .flatMap((p) => (p === "/" ? ["", "/"] : p))
-      .join("|")})/?$`,
+    `^(/(${locales.join('|')}))?(${publicRoutes.flatMap((p) => (p === '/' ? ['', '/'] : p)).join('|')})/?$`,
     'i'
   )
 
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname)
+  console.log('🚀 ~ middleware ~ isPublicPage:', isPublicPage)
 
   if (isPublicPage) {
     return intlMiddleware(req) // Apply internationalization for public pages
@@ -51,5 +50,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 }
