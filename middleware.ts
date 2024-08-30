@@ -34,7 +34,6 @@ export default auth((req) => {
 
   // 是否是公共路由
   const isPublicRoute = routeTester(publicRoutes, nextUrl.pathname)
-  // const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   console.log('🚀 ~ authMiddleware ~ isPublicRoute:', isPublicRoute)
 
   // 是否是授权路由 如登录页 注册页
@@ -76,10 +75,11 @@ export default auth((req) => {
 const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
-  localePrefix: 'as-needed'
+  localePrefix: 'always'
 })
 
 // 配置匹配器
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
+  // matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 }
