@@ -63,7 +63,8 @@ const SignInForm = () => {
             setShow2FA(true)
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log("🚀 ~ startTransition ~ e:", e)
           setError('An error occurred!')
         })
     })
