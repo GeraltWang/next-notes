@@ -30,7 +30,7 @@ const authMiddleware = auth((req) => {
     return intlMiddleware(req)
   } else {
     if (isAuthRoute) {
-      return NextResponse.next()
+      return intlMiddleware(req)
     }
     return Response.redirect(new URL(SIGN_IN_ROUTE, nextUrl))
   }

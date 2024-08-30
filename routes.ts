@@ -29,7 +29,7 @@ export const PASSWORD_RESET_ROUTE = '/new-password'
  * 无需鉴权
  * @type {string[]}
  */
-export const publicRoutes = [VERIFICATION_ROUTE, '/note/\\d+']
+export const publicRoutes = ['/', VERIFICATION_ROUTE, '/note/\\d+']
 
 /**
  * 授权路由
