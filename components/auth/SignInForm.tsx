@@ -4,6 +4,7 @@ import { SignInSchema } from '@/schema/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/routing'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -15,8 +16,11 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 
 const SignInForm = () => {
+  const router = useRouter()
+
   const t = useTranslations('Auth')
 
   const searchParams = useSearchParams()
@@ -57,6 +61,7 @@ const SignInForm = () => {
           if ('message' in data) {
             // form.reset()
             setSuccess(data.message)
+            router.replace(callbackUrl || DEFAULT_LOGIN_REDIRECT)
           }
 
           if ('twoFactor' in data) {
@@ -64,7 +69,7 @@ const SignInForm = () => {
           }
         })
         .catch((e) => {
-          console.log("🚀 ~ startTransition ~ e:", e)
+          console.log('🚀 ~ startTransition ~ e:', e)
           setError('An error occurred!')
         })
     })
