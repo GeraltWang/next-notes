@@ -9,7 +9,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${domain}${VERIFICATION_ROUTE}?token=${token}`
 
   await resend.emails.send({
-    from: 'onboarding@resend.dev',
+    from: 'onboarding <security@email.muycloud.cc>', // onboarding@resend.dev
     to: email,
     subject: 'Confirm your email',
     html: `
@@ -22,7 +22,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetLink = `${domain}${PASSWORD_RESET_ROUTE}?token=${token}`
 
   await resend.emails.send({
-    from: 'onboarding@resend.dev',
+    from: 'Reset your password <security@email.muycloud.cc>', // onboarding@resend.dev
     to: email,
     subject: 'Reset your password',
     html: `
@@ -33,7 +33,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: 'onboarding@resend.dev',
+    from: 'Two factor confirmation <security@email.muycloud.cc>', // onboarding@resend.dev
     to: email,
     subject: '2FA code',
     html: `
