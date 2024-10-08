@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
 import NextAuth, { type DefaultSession } from 'next-auth'
+import { DEFAULT_JWT_EXPIRES_IN } from '@/config'
 import { JWT } from 'next-auth/jwt'
 
 export type ExtendedUser = {
@@ -31,7 +32,10 @@ declare module 'next-auth/jwt' {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  session: { strategy: 'jwt' },
+  session: {
+    strategy: 'jwt',
+    maxAge: DEFAULT_JWT_EXPIRES_IN * 24 * 60 * 60
+  },
   pages: {
     signIn: '/sign-in',
     error: '/error'
