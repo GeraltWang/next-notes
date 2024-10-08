@@ -1,11 +1,5 @@
 'use server'
-import prisma from '@/prisma/client'
-import { currentUser } from '@/lib/auth'
-// import { redirect } from 'next/navigation'
-import { z } from 'zod'
-import { ProfileSchema } from '@/schema/user'
-import { getErrorMessage } from '@/lib/utils'
-import { revalidatePath } from 'next/cache'
+import prisma from '@/lib/prisma'
 
 export const getUserByEmail = async (email: string) => {
   try {

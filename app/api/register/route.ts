@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { SignUpSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     data: {
       name,
       email,
-      password
+      password: hashedPassword
     }
   })
 

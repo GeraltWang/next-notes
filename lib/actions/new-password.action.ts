@@ -2,7 +2,7 @@
 import { getPasswordResetTokenByToken } from '@/lib/actions/password-reset-token.action'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { getErrorMessage } from '@/lib/utils'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { ResetPasswordSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 import { z } from 'zod'

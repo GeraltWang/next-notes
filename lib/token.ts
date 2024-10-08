@@ -2,7 +2,7 @@ import { getPasswordResetToKenByEmail } from '@/lib/actions/password-reset-token
 import { getTwoFactorTokenByEmail } from '@/lib/actions/two-factor-token'
 import { getVerificationToKenByEmail } from '@/lib/actions/verification-token.action'
 import { generateExpiryTime } from '@/lib/utils'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import crypto from 'crypto'
 import { v4 as uuidV4 } from 'uuid'
 

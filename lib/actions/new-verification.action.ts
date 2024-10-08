@@ -1,5 +1,5 @@
 'use server'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { getErrorMessage } from '@/lib/utils'
 import { getUserByEmail } from '@/lib/actions/user.action'
 import { getVerificationToKenByToken } from '@/lib/actions/verification-token.action'

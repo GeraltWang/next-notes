@@ -1,5 +1,5 @@
 'use server'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { currentUser } from '@/lib/auth'
 import { ProfileSchema, SecuritySchema } from '@/schema/user'
 import { z } from 'zod'

@@ -1,6 +1,6 @@
 'use server'
 import { getErrorMessage } from '@/lib/utils'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { SignUpSchema } from '@/schema/user'
 import { encrypt } from 'encrypt'
 import { z } from 'zod'

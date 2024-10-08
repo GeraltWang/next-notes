@@ -1,5 +1,5 @@
 'use server'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 
 export const getVerificationToKenByToken = async (token: string) => {
   try {

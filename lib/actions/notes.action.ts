@@ -1,6 +1,6 @@
 'use server'
 import dayjs from 'dayjs'
-import prisma from '@/prisma/client'
+import prisma from '@/lib/prisma'
 import { NoteSchema } from '@/schema/note'
 import { z } from 'zod'
 import { currentUser } from '@/lib/auth'
