@@ -2,14 +2,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import ProfileForm from './_components/ProfileForm'
 import AuthProvider from '@/components/AuthProvider'
 import { auth } from 'auth'
+import { getTranslations } from 'next-intl/server'
 
 const GeneralPage = async () => {
   const session = await auth()
+
+  const t = await getTranslations('Setting')
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Profile</CardTitle>
-        <CardDescription>User information.</CardDescription>
+        <CardTitle>{t('profile')}</CardTitle>
+        <CardDescription>{t('userInfo')}</CardDescription>
       </CardHeader>
       <CardContent>
         <AuthProvider session={session}>

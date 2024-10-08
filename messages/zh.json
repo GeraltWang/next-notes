@@ -28,6 +28,15 @@
     "createAccount": "注册账号",
     "dontHaveAccount": "还没有账号？点击注册",
     "haveAccount": "已有账号？点击登录",
+    "confirmVerification": "确认您的验证",
     "backToSignIn": "返回登录页"
+  },
+  "Setting": {
+    "settings": "设置",
+    "general": "通用",
+    "profile": "个人资料",
+    "userInfo": "用户信息",
+    "security": "安全",
+    "userSecurity": "用户安全功能"
   }
 }

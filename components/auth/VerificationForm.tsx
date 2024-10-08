@@ -44,7 +44,7 @@ const VerificationForm = () => {
 
   return (
     <CardWrapper
-      headerLabel='Confirm your verification'
+      headerLabel={t('confirmVerification')}
       backButtonLabel={t('backToSignIn')}
       backButtonHref={SIGN_IN_ROUTE}
     >

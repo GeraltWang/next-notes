@@ -28,6 +28,15 @@
     "createAccount": "Create an account",
     "dontHaveAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
+    "confirmVerification": "Confirm your verification",
     "backToSignIn": "Back to sign in"
+  },
+  "Setting": {
+    "settings": "Settings",
+    "general": "General",
+    "profile": "Profile",
+    "userInfo": "User information.",
+    "security": "Security",
+    "userSecurity": "User security feature."
   }
 }
